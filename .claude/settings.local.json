@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(dir C:Usersqtasp.claude /s /b)",
+      "Bash(findstr /i \"skill\")",
+      "Bash(dir \"C:\\\\Users\\\\qtasp\\\\.claude\" /s /b)",
+      "Bash(dir \"C:\\\\Users\\\\qtasp\\\\.claude\\\\plugins\" /s /b)",
+      "Bash(dir \"C:\\\\Users\\\\qtasp\\\\.claude\\\\plugins\\\\marketplaces\" /s /b)",
+      "Bash(dir \"C:\\\\Users\\\\qtasp\\\\.claude\\\\plugins\\\\marketplaces\\\\claude-plugins-official\" /s /b)",
+      "Bash(dir \"C:\\\\Users\\\\qtasp\\\\.claude\\\\plugins\\\\marketplaces\\\\claude-plugins-official\\\\plugins\" /b)",
+      "Bash(dir \"C:\\\\Users\\\\qtasp\\\\.claude\\\\plugins\\\\marketplaces\\\\claude-plugins-official\\\\external_plugins\" /b)",
+      "Bash(gh repo:*)"
+    ]
+  }
+}
