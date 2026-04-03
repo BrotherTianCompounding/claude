@@ -1,2 +1,8 @@
-output/
-screenshots/
+projects/
+sessions/
+backups/
+shell-snapshots/
+session-env/
+ide/
+settings.local.json
+*.local.md
