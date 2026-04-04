@@ -128,7 +128,7 @@ description: Use when the user provides a completed video script and needs A-ROL
 标注版脚本完成后，额外输出一份「录制版脚本」，规则如下：
 
 1. **逐句断行**：每句话独占一行，以句号、问号、感叹号、省略号为断句依据。方便主播逐句录制、逐句对照。
-2. **结束标签后空行**：每个 `[A-ROLL X 结束]` 或 `[B-ROLL ... 结束]` 标签后面，必须跟一个空行，视觉上隔开不同镜头段落。
+2. **结束标签后断两行**：每个 `[A-ROLL X 结束]` 或 `[B-ROLL ... 结束]` 标签后面，必须空出**两个空行**（即视觉上有一整段空白），明确区分不同镜头段落。
 3. **保留所有标签**：开始/结束标签原样保留，不做任何删减。
 
 **示例：**
@@ -139,10 +139,12 @@ description: Use when the user provides a completed video script and needs A-ROL
 我相信很多朋友这段时间连股票账户都不想打开。
 [A-ROLL 1 结束]
 
+
 [B-ROLL 历史交易截图 展示3月期权账单 开始]
 大家看屏幕上这张图。
 这是我3月份作为期权卖方操作的最终账单。
 [B-ROLL 历史交易截图 展示3月期权账单 结束]
+
 
 [A-ROLL 2 开始]
 那么问题来了——我这近3万美金，到底是怎么赚到的？
@@ -162,3 +164,15 @@ description: Use when the user provides a completed video script and needs A-ROL
 - 不要把整段话都标成A-ROLL，能切B-ROLL就切
 - 不要设计过于复杂的动画，以实用为主
 - 设计文档里的文案直接可用，不要留"待填写"占位符
+
+---
+
+## 文件输出规范
+
+完成录制版脚本后，自动保存到 `D:\ai_claude_projects\youtube\output\` 目录下：
+
+1. 以视频标题创建文件夹（去掉标点，空格可用或省略），例如：`3月全市场割肉我靠SellPut静静收了近3万美金/`
+2. 录制版脚本保存为 `录制版脚本.md`
+3. 设计文档如有需要可单独保存为 `设计文档.md`
+
+如果文件夹或文件不存在则创建新的，如果已存在则更新。
