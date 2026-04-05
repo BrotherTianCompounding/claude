@@ -6,3 +6,6 @@ session-env/
 ide/
 settings.local.json
 *.local.md
+output/*
+!output/*.md
+screenshots/
