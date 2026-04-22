@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>轮子策略 The Wheel — B-Roll</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #13101F;
+    color: #E8E4F0;
+    overflow-x: hidden;
+  }
+
+  /* Nav */
+  .side-nav {
+    position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 12px; z-index: 100;
+  }
+  .side-nav a {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: #A89CC8; font-size: 13px; font-weight: 700;
+    text-decoration: none; transition: all 0.3s;
+  }
+  .side-nav a:hover, .side-nav a.active {
+    background: rgba(255,138,128,0.25); border-color: #FF8A80;
+    color: #fff; box-shadow: 0 0 16px rgba(255,138,128,0.4);
+  }
+
+  /* Sections */
+  .section {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 60px 80px; position: relative;
+  }
+  .section:nth-child(even) { background: rgba(255,255,255,0.02); }
+
+  .card {
+    max-width: 1100px; width: 100%; border-radius: 24px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    padding: 56px 64px; backdrop-filter: blur(12px);
+  }
+
+  h1 {
+    font-size: 52px; font-weight: 900; margin-bottom: 12px;
+    background: linear-gradient(135deg, #FF8A80, #FFD180, #A5D6A7);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  h2 {
+    font-size: 36px; font-weight: 800; margin-bottom: 24px;
+    color: #E0D6F0;
+  }
+  h3 {
+    font-size: 22px; font-weight: 700; margin-bottom: 16px;
+    color: #CE93D8;
+  }
+  .subtitle {
+    font-size: 20px; color: #A89CC8; margin-bottom: 40px; font-weight: 600;
+  }
+
+  /* Accent colors */
+  .coral { color: #FF8A80; }
+  .mint { color: #A5D6A7; }
+  .lavender { color: #CE93D8; }
+  .peach { color: #FFD180; }
+  .sky { color: #81D4FA; }
+
+  /* Flow diagram */
+  .wheel-flow {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; flex-wrap: wrap; margin: 40px 0;
+  }
+  .wheel-step {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px; padding: 28px 24px; text-align: center;
+    min-width: 180px; position: relative;
+  }
+  .wheel-step .step-icon { font-size: 36px; margin-bottom: 10px; }
+  .wheel-step .step-title { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+  .wheel-step .step-desc { font-size: 14px; color: #A89CC8; }
+  .wheel-arrow {
+    font-size: 28px; color: #FF8A80; margin: 0 8px; font-weight: 900;
+  }
+
+  /* Data cards */
+  .data-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px; margin: 32px 0;
+  }
+  .data-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px; padding: 28px; text-align: center;
+  }
+  .data-card .label { font-size: 14px; color: #A89CC8; margin-bottom: 8px; font-weight: 600; }
+  .data-card .value { font-size: 36px; font-weight: 900; }
+  .data-card .note { font-size: 13px; color: #8878A8; margin-top: 6px; }
+
+  /* Tables */
+  table {
+    width: 100%; border-collapse: separate; border-spacing: 0;
+    margin: 24px 0; border-radius: 12px; overflow: hidden;
+  }
+  th {
+    background: rgba(206,147,216,0.15); color: #CE93D8;
+    padding: 16px 20px; text-align: left; font-weight: 700; font-size: 15px;
+  }
+  td {
+    padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 15px;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .highlight-row td {
+    background: rgba(165,214,167,0.1) !important;
+    color: #A5D6A7; font-weight: 700;
+  }
+
+  /* Scenario boxes */
+  .scenario-box {
+    border-radius: 16px; padding: 28px 32px; margin: 16px 0;
+  }
+  .scenario-a {
+    background: rgba(165,214,167,0.08); border: 1px solid rgba(165,214,167,0.2);
+  }
+  .scenario-b {
+    background: rgba(255,138,128,0.08); border: 1px solid rgba(255,138,128,0.2);
+  }
+
+  /* Risk cards */
+  .risk-cards { display: flex; gap: 20px; flex-wrap: wrap; margin: 32px 0; }
+  .risk-card {
+    flex: 1; min-width: 280px; border-radius: 16px; padding: 32px;
+    background: rgba(255,138,128,0.06); border: 1px solid rgba(255,138,128,0.15);
+  }
+  .risk-card h3 { color: #FF8A80; font-size: 18px; }
+  .risk-card p { font-size: 15px; color: #C8BED8; line-height: 1.7; }
+
+  /* Summary list */
+  .summary-list { list-style: none; margin: 24px 0; }
+  .summary-list li {
+    padding: 16px 20px; margin-bottom: 12px; border-radius: 12px;
+    background: rgba(255,255,255,0.04); border-left: 4px solid;
+    font-size: 16px; line-height: 1.6;
+  }
+  .summary-list li:nth-child(1) { border-color: #FF8A80; }
+  .summary-list li:nth-child(2) { border-color: #A5D6A7; }
+  .summary-list li:nth-child(3) { border-color: #FFD180; }
+  .summary-list li:nth-child(4) { border-color: #CE93D8; }
+  .summary-list li:nth-child(5) { border-color: #81D4FA; }
+
+  /* Comparison table highlight */
+  .vs-table td:nth-child(3) { color: #A5D6A7; font-weight: 600; }
+
+  /* Profit calc */
+  .profit-row {
+    display: flex; align-items: center; gap: 16px; margin: 12px 0;
+    font-size: 18px;
+  }
+  .profit-row .profit-label { color: #A89CC8; min-width: 200px; }
+  .profit-row .profit-value { font-weight: 800; font-size: 24px; }
+
+  /* VIP / Promo */
+  .promo-card {
+    text-align: center; max-width: 700px; margin: 0 auto;
+  }
+  .promo-card h2 {
+    background: linear-gradient(135deg, #CE93D8, #81D4FA);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .promo-card p { font-size: 18px; color: #C8BED8; line-height: 1.8; margin-top: 16px; }
+  .promo-badge {
+    display: inline-block; background: rgba(206,147,216,0.2);
+    border: 1px solid rgba(206,147,216,0.3); border-radius: 40px;
+    padding: 10px 28px; font-size: 16px; font-weight: 700; color: #CE93D8;
+    margin-top: 24px;
+  }
+
+  /* Next ep teaser */
+  .teaser-card {
+    text-align: center; max-width: 700px; margin: 0 auto;
+  }
+  .teaser-card h2 { color: #FFD180; }
+  .teaser-card p { font-size: 18px; color: #C8BED8; line-height: 1.8; margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<!-- Side Navigation -->
+<nav class="side-nav">
+  <a href="#s1">1</a><a href="#s2">2</a><a href="#s3">3</a>
+  <a href="#s4">4</a><a href="#s5">5</a><a href="#s6">6</a>
+  <a href="#s7">7</a><a href="#s8">8</a><a href="#s9">9</a>
+  <a href="#s10">10</a><a href="#s11">11</a><a href="#s12">12</a>
+</nav>
+
+<!-- Page 1: Title -->
+<section class="section" id="s1">
+  <div class="card" style="text-align:center;">
+    <h1>轮子策略 The Wheel</h1>
+    <p class="subtitle">期权卖方的终极收租闭环</p>
+    <div class="data-grid" style="max-width:600px; margin:32px auto;">
+      <div class="data-card">
+        <div class="label">教学标的</div>
+        <div class="value coral">TQQQ</div>
+      </div>
+      <div class="data-card">
+        <div class="label">假设股价</div>
+        <div class="value mint">$60</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 2: Sell Put被行权后的三种反应 -->
+<section class="section" id="s2">
+  <div class="card">
+    <h2>Sell Put 被行权后的三种反应</h2>
+    <p class="subtitle">TQQQ 从 $60 暴跌至 $50，$55 Put 被行权</p>
+    <div class="data-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="data-card" style="border-color: rgba(255,138,128,0.3);">
+        <div class="value" style="font-size:28px;">&#x1F648;</div>
+        <div class="label" style="margin-top:12px; font-size:16px; color:#FF8A80;">死扛</div>
+        <div class="note">"只要不卖就不算亏"<br>资金彻底锁死</div>
+      </div>
+      <div class="data-card" style="border-color: rgba(255,138,128,0.3);">
+        <div class="value" style="font-size:28px;">&#x1F4C9;</div>
+        <div class="label" style="margin-top:12px; font-size:16px; color:#FF8A80;">割肉</div>
+        <div class="note">恐慌抛售<br>倒在黎明前</div>
+      </div>
+      <div class="data-card" style="border-color: rgba(165,214,167,0.3);">
+        <div class="value" style="font-size:28px;">&#x1F604;</div>
+        <div class="label" style="margin-top:12px; font-size:16px; color:#A5D6A7;">启动轮子</div>
+        <div class="note">微微一笑<br>开始卖 Covered Call</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 3: 轮子策略房产类比 -->
+<section class="section" id="s3">
+  <div class="card">
+    <h2>轮子策略 = 包租公的无限循环</h2>
+    <div class="wheel-flow">
+      <div class="wheel-step">
+        <div class="step-icon">&#x1F3E0;</div>
+        <div class="step-title coral">Sell Put</div>
+        <div class="step-desc">"房价跌到55万我就买"<br>先收订金（权利金）</div>
+      </div>
+      <span class="wheel-arrow">&rarr;</span>
+      <div class="wheel-step">
+        <div class="step-icon">&#x1F511;</div>
+        <div class="step-title peach">被行权接股</div>
+        <div class="step-desc">房价跌了，按约定买房<br>正式成为房东</div>
+      </div>
+      <span class="wheel-arrow">&rarr;</span>
+      <div class="wheel-step">
+        <div class="step-icon">&#x1F4B0;</div>
+        <div class="step-title mint">Covered Call</div>
+        <div class="step-desc">把房子出租<br>每月收租金</div>
+      </div>
+      <span class="wheel-arrow">&rarr;</span>
+      <div class="wheel-step">
+        <div class="step-icon">&#x1F4B8;</div>
+        <div class="step-title sky">被 Call 走</div>
+        <div class="step-desc">房价涨了，卖掉房子<br>赚差价 + 租金</div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:24px;">
+      <span style="font-size:20px; color:#FF8A80; font-weight:800;">&#x21BB; 手上有现金，回到第一步，继续循环</span>
+    </div>
+  </div>
+</section>
+
+<!-- Page 4: Sell Put 阶段数据 -->
+<section class="section" id="s4">
+  <div class="card">
+    <h2>第一阶段：Sell Put 建仓</h2>
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="label">TQQQ 现价</div>
+        <div class="value mint">$60</div>
+      </div>
+      <div class="data-card">
+        <div class="label">行权价</div>
+        <div class="value peach">$55</div>
+      </div>
+      <div class="data-card">
+        <div class="label">权利金</div>
+        <div class="value coral">$150</div>
+        <div class="note">$1.50 x 100</div>
+      </div>
+      <div class="data-card">
+        <div class="label">现金担保</div>
+        <div class="value lavender">$5,500</div>
+      </div>
+      <div class="data-card">
+        <div class="label">Delta</div>
+        <div class="value sky">-0.20</div>
+      </div>
+      <div class="data-card">
+        <div class="label">DTE</div>
+        <div class="value">30天</div>
+      </div>
+      <div class="data-card">
+        <div class="label">30天回报率</div>
+        <div class="value mint">2.7%</div>
+      </div>
+      <div class="data-card">
+        <div class="label">年化回报</div>
+        <div class="value mint">~33%</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:20px; margin-top:24px; flex-wrap:wrap;">
+      <div class="scenario-box scenario-a" style="flex:1; min-width:280px;">
+        <h3 style="color:#A5D6A7;">结局 A：股价 > $55</h3>
+        <p>Put 作废，<strong>$150 全部落袋</strong><br>直接开下一轮 Sell Put</p>
+      </div>
+      <div class="scenario-box scenario-b" style="flex:1; min-width:280px;">
+        <h3 style="color:#FF8A80;">结局 B：股价 < $55 被行权</h3>
+        <p>买入 100 股 @ $55<br>真实成本：$55 - $1.50 = <strong>$53.50</strong><br>进入第二阶段 &rarr;</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 5: Covered Call 阶段数据 -->
+<section class="section" id="s5">
+  <div class="card">
+    <h2>第二阶段：Covered Call 收租</h2>
+    <p class="subtitle">防御性 Covered Call — 低位收租降低成本</p>
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="label">持仓</div>
+        <div class="value" style="font-size:24px;">100股 TQQQ</div>
+      </div>
+      <div class="data-card">
+        <div class="label">持仓成本</div>
+        <div class="value peach">$53.50</div>
+      </div>
+      <div class="data-card">
+        <div class="label">当前股价</div>
+        <div class="value">~$52</div>
+      </div>
+      <div class="data-card">
+        <div class="label">Call 行权价</div>
+        <div class="value mint">$56</div>
+        <div class="note">高于成本 $53.50</div>
+      </div>
+      <div class="data-card">
+        <div class="label">权利金</div>
+        <div class="value coral">$100</div>
+        <div class="note">$1.00 x 100</div>
+      </div>
+      <div class="data-card">
+        <div class="label">Delta</div>
+        <div class="value sky">0.25</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:20px; margin-top:24px; flex-wrap:wrap;">
+      <div class="scenario-box scenario-a" style="flex:1; min-width:280px;">
+        <h3 style="color:#A5D6A7;">结局 A：股价 < $56</h3>
+        <p>Call 作废，$100 落袋<br>成本降至 <strong>$52.50</strong><br>继续持有，再卖下一轮 Call</p>
+      </div>
+      <div class="scenario-box scenario-b" style="flex:1; min-width:280px;">
+        <h3 style="color:#FF8A80;">结局 B：股价 > $56 被 Call 走</h3>
+        <p>100股以 $56 卖出<br>进入总账结算 &darr;</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 6: 总利润计算 -->
+<section class="section" id="s6">
+  <div class="card">
+    <h2>一轮轮子总账</h2>
+    <p class="subtitle">被 Call 走后的完整收益</p>
+    <div class="profit-row">
+      <span class="profit-label">股价差价（$56 - $53.50）</span>
+      <span class="profit-value mint">+$250</span>
+    </div>
+    <div class="profit-row">
+      <span class="profit-label">Covered Call 权利金</span>
+      <span class="profit-value mint">+$100</span>
+    </div>
+    <div class="profit-row" style="opacity:0.5;">
+      <span class="profit-label">Sell Put 权利金 $150</span>
+      <span class="profit-value" style="font-size:16px; color:#A89CC8;">已计入成本 $53.50</span>
+    </div>
+    <hr style="border:1px solid rgba(255,255,255,0.1); margin:16px 0;">
+    <div class="profit-row">
+      <span class="profit-label" style="color:#FFD180; font-weight:800;">总利润</span>
+      <span class="profit-value" style="color:#FFD180; font-size:36px;">+$350</span>
+    </div>
+    <div class="data-grid" style="max-width:500px; margin-top:24px;">
+      <div class="data-card">
+        <div class="label">本金</div>
+        <div class="value">$5,500</div>
+      </div>
+      <div class="data-card">
+        <div class="label">总回报率</div>
+        <div class="value mint">6.4%</div>
+        <div class="note">耗时约 2-3 个月</div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:32px;">
+      <span style="font-size:20px; color:#FF8A80; font-weight:800;">&#x21BB; 股票被 Call 走，手持现金，回到 Sell Put 继续循环</span>
+    </div>
+  </div>
+</section>
+
+<!-- Page 7: 成本递减表格 -->
+<section class="section" id="s7">
+  <div class="card">
+    <h2>成本递减效应</h2>
+    <p class="subtitle">假设 TQQQ 在 $52 横盘，每月卖 Call 收 $100</p>
+    <table>
+      <thead>
+        <tr><th>时间</th><th>操作</th><th>累计权利金</th><th>实际成本</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>第0月</td><td>Sell Put 被行权</td><td class="coral">$150</td><td>$53.50</td></tr>
+        <tr><td>第1月</td><td>卖 Call 收租</td><td class="coral">$250</td><td>$52.50</td></tr>
+        <tr><td>第2月</td><td>卖 Call 收租</td><td class="coral">$350</td><td>$51.50</td></tr>
+        <tr><td>第3月</td><td>卖 Call 收租</td><td class="coral">$450</td><td>$50.50</td></tr>
+        <tr class="highlight-row"><td>第4月</td><td>卖 Call 收租</td><td>$550</td><td>$49.50 &lt; $52</td></tr>
+        <tr class="highlight-row"><td>第5月</td><td>卖 Call 收租</td><td>$650</td><td>$48.50 &lt; $52</td></tr>
+      </tbody>
+    </table>
+    <p style="text-align:center; font-size:18px; color:#A5D6A7; font-weight:700; margin-top:16px;">
+      第 4 个月起：成本 < 市价 = 浮亏变浮盈
+    </p>
+  </div>
+</section>
+
+<!-- Page 8: 关键参数速查表 -->
+<section class="section" id="s8">
+  <div class="card">
+    <h2>关键参数速查表</h2>
+    <table>
+      <thead>
+        <tr><th>参数</th><th>Sell Put 阶段</th><th>Covered Call 阶段</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="lavender">行权价</td><td>愿意买入的价格（OTM ~8%）</td><td>必须高于成本价</td></tr>
+        <tr><td class="lavender">Delta</td><td>-0.15 ~ -0.25</td><td>0.20 ~ 0.30</td></tr>
+        <tr><td class="lavender">DTE</td><td>30-45 天</td><td>30-45 天</td></tr>
+        <tr><td class="lavender">止盈</td><td>权利金缩水 50% 可提前平仓</td><td>权利金缩水 50% 可提前平仓</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:24px; padding:20px; border-radius:12px; background:rgba(255,138,128,0.08); border:1px solid rgba(255,138,128,0.2);">
+      <p style="color:#FF8A80; font-weight:700; font-size:16px;">
+        铁律：Covered Call 行权价绝不选在成本以下 — 被 Call 走等于锁定亏损
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 9: 三大风险 -->
+<section class="section" id="s9">
+  <div class="card">
+    <h2>三大风险</h2>
+    <div class="risk-cards">
+      <div class="risk-card">
+        <h3>风险一：标的选错</h3>
+        <p>轮子变绞肉机。基本面败坏的垃圾股从 $60 跌到 $10，卖多少 Call 都填不了坑。<strong>只做长期看好、愿意真金白银持有的标的。</strong></p>
+      </div>
+      <div class="risk-card">
+        <h3>风险二：牛市踏空</h3>
+        <p>上行收益被行权价封顶。成本 $53.50 卖 $56 Call，TQQQ 暴涨到 $70 跟你无关。<strong>判断大涨时可暂停卖 Call。</strong></p>
+      </div>
+      <div class="risk-card">
+        <h3>风险三：波动率衰减</h3>
+        <p>TQQQ 三倍杠杆 ETF 有天然的 Volatility Decay，长期震荡会损耗净值。<strong>TQQQ 适合中短期轮子，超长线用 QQQ/VOO。</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 10: 轮子 vs Buy and Hold -->
+<section class="section" id="s10">
+  <div class="card">
+    <h2>轮子策略 vs 买入持有</h2>
+    <table class="vs-table">
+      <thead>
+        <tr><th>维度</th><th>买入持有</th><th>轮子策略</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="lavender">入场价</td><td>市价买入 $60</td><td>Sell Put 折价接盘 $55 + 收权利金</td></tr>
+        <tr><td class="lavender">等待期间</td><td>资金闲置</td><td>Sell Put 持续收权利金</td></tr>
+        <tr><td class="lavender">持有期间</td><td>只赚股价涨幅</td><td>股价涨幅 + Covered Call 权利金</td></tr>
+        <tr><td class="lavender">下跌保护</td><td>没有</td><td>权利金形成安全垫</td></tr>
+        <tr><td class="lavender">上行收益</td><td style="color:#A5D6A7;">无限</td><td style="color:#FF8A80;">被行权价封顶</td></tr>
+      </tbody>
+    </table>
+    <p style="text-align:center; margin-top:20px; color:#A89CC8; font-size:16px;">
+      温和上涨或横盘震荡 &rarr; 轮子几乎一定跑赢 | 火箭式暴涨 &rarr; 买入持有更优
+    </p>
+  </div>
+</section>
+
+<!-- Page 11: VIP Discord -->
+<section class="section" id="s11">
+  <div class="card">
+    <div class="promo-card">
+      <h2>VIP Discord 社区</h2>
+      <p>见证百万之路，看到每一个实时操作<br>300 名付费用户一起交流心得与经验</p>
+      <div class="promo-badge">链接在视频描述和置顶评论</div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 12: 总结 + 下期预告 -->
+<section class="section" id="s12">
+  <div class="card">
+    <h2>核心要点</h2>
+    <ul class="summary-list">
+      <li><strong>轮子本质</strong> Sell Put &rarr; 接股 &rarr; Covered Call &rarr; 被 Call 走 &rarr; 循环，每个阶段都产生现金流</li>
+      <li><strong>成本递减</strong> 股价横盘不动，持仓成本通过每月收租持续下降，时间是你的朋友</li>
+      <li><strong>参数铁律</strong> Sell Put 选愿意买入的价格，Covered Call 行权价必须高于成本</li>
+      <li><strong>只做优质标的</strong> 垃圾股做轮子 = 绞肉机</li>
+      <li><strong>TQQQ 快进快出</strong> 三倍杠杆有波动率衰减，超长线用 QQQ 或 VOO</li>
+    </ul>
+    <div style="margin-top:40px; text-align:center; padding:32px; border-radius:16px; background:rgba(255,209,128,0.06); border:1px solid rgba(255,209,128,0.15);">
+      <h3 style="color:#FFD180; font-size:22px;">下期预告</h3>
+      <p style="font-size:20px; color:#E0D6F0; margin-top:12px; font-weight:700;">Calendar Spread 日历价差</p>
+      <p style="font-size:16px; color:#A89CC8; margin-top:8px;">高波动市场的时间套利神器</p>
+    </div>
+  </div>
+</section>
+
+<script>
+// Active nav highlight
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.side-nav a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const id = entry.target.id;
+      const link = document.querySelector(`.side-nav a[href="#${id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

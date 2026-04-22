@@ -22,14 +22,16 @@
 - 第44期：黄金 Delta 参数（Delta 16-20）
 - 第45期：Put Credit Spread（小资金策略）
 - 第46期：Stock Repair Strategy（股票修复策略 / 1x2 Call Ratio Spread）— 美伊战争市场恐慌背景，MSFT套牢案例
+- Roll展期：Roll（展期）自救大法 — Sell Put 被套后用 Roll Out / Roll Down / Roll Out and Down 自救，MU/COHR/TQQQ 三笔实盘演示
+- 轮子策略：轮子策略 The Wheel — 期权卖方终极闭环，TQQQ $60 假设数据教学，Sell Put → 接股 → Covered Call → 循环
 
 ---
 
 ## 待开发话题池
 
 ### 高优先级（自然延续性强）
-- [ ] **Roll 展期详解** — 第45期结尾预告，如何在期权被打穿后展期自救
-- [ ] **Calendar Spread** — 日历价差，时间套利策略
+- [x] **Roll 展期详解** — 已完成
+- [ ] **Calendar Spread** — 日历价差，时间套利策略（车轮策略结尾已预告，下期优先）
 - [ ] **Diagonal Spread** — 对角价差，PMCC的变体
 - [ ] **仓位管理系统** — 多期权同时管理时的仓位分配
 
@@ -41,7 +43,7 @@
 ### 基础教育类
 - [ ] **从零开始开户** — 如何开期权账户（针对新手）
 - [ ] **期权税务攻略** — Qualified Covered Call、短期/长期资本利得
-- [ ] **Wheel Strategy 完整案例** — 从 Sell Put 到 Covered Call 的完整轮动
+- [x] **轮子策略 Wheel Strategy 完整案例** — 已完成（车轮策略期）
 
 ### 实盘/案例类
 - [ ] **复盘实盘亏损案例** — 天哥亏过的单，从中学到的教训（高流量潜力）
@@ -55,4 +57,4 @@
 
 ---
 
-*最后更新：2026-03-30*
+*最后更新：2026-04-19*
