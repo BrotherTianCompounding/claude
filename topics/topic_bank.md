@@ -24,6 +24,7 @@
 - 第46期：Stock Repair Strategy（股票修复策略 / 1x2 Call Ratio Spread）— 美伊战争市场恐慌背景，MSFT套牢案例
 - Roll展期：Roll（展期）自救大法 — Sell Put 被套后用 Roll Out / Roll Down / Roll Out and Down 自救，MU/COHR/TQQQ 三笔实盘演示
 - 轮子策略：轮子策略 The Wheel — 期权卖方终极闭环，TQQQ $60 假设数据教学，Sell Put → 接股 → Covered Call → 循环
+- 日历价差：Calendar Spread — 横盘高波动市场的时间套利策略，TQQQ $60 假设教学，Sell 30天 + Buy 90天 同行权价
 
 ---
 
@@ -31,13 +32,13 @@
 
 ### 高优先级（自然延续性强）
 - [x] **Roll 展期详解** — 已完成
-- [ ] **Calendar Spread** — 日历价差，时间套利策略（车轮策略结尾已预告，下期优先）
-- [ ] **Diagonal Spread** — 对角价差，PMCC的变体
+- [x] **Calendar Spread** — 已完成
+- [~] ~~Diagonal Spread~~ — 本质就是 PMCC（第43期已讲），已废弃
 - [ ] **仓位管理系统** — 多期权同时管理时的仓位分配
 
 ### 市场热点相关
 - [ ] **高波动率市场下的期权策略** — VIX高企时如何操作
-- [ ] **财报季期权玩法** — Earnings 前后的策略
+- [ ] **财报季期权玩法** — IV Crush 的赚钱与避坑指南（Calendar 结尾已预告，下期优先）
 - [ ] **美联储降息周期中的投资策略** — LEAPS机会分析
 
 ### 基础教育类
@@ -57,4 +58,4 @@
 
 ---
 
-*最后更新：2026-04-19*
+*最后更新：2026-04-21*
