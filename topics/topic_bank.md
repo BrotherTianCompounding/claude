@@ -25,6 +25,7 @@
 - Roll展期：Roll（展期）自救大法 — Sell Put 被套后用 Roll Out / Roll Down / Roll Out and Down 自救，MU/COHR/TQQQ 三笔实盘演示
 - 轮子策略：轮子策略 The Wheel — 期权卖方终极闭环，TQQQ $60 假设数据教学，Sell Put → 接股 → Covered Call → 循环
 - 日历价差：Calendar Spread — 横盘高波动市场的时间套利策略，TQQQ $60 假设教学，Sell 30天 + Buy 90天 同行权价
+- 财报季 IV：财报季 IV Crush 完整玩法 — NVDA $130 假设教学，Iron Condor 财报前开仓吃 IV Crush，三种参与方式
 
 ---
 
@@ -34,11 +35,11 @@
 - [x] **Roll 展期详解** — 已完成
 - [x] **Calendar Spread** — 已完成
 - [~] ~~Diagonal Spread~~ — 本质就是 PMCC（第43期已讲），已废弃
-- [ ] **仓位管理系统** — 多期权同时管理时的仓位分配
+- [ ] **仓位管理系统** — 多期权同时管理时的仓位分配（财报季结尾已预告，下期优先）
 
 ### 市场热点相关
 - [ ] **高波动率市场下的期权策略** — VIX高企时如何操作
-- [ ] **财报季期权玩法** — IV Crush 的赚钱与避坑指南（Calendar 结尾已预告，下期优先）
+- [x] **财报季期权玩法** — 已完成（IV Crush 完整玩法，NVDA Iron Condor 案例）
 - [ ] **美联储降息周期中的投资策略** — LEAPS机会分析
 
 ### 基础教育类
@@ -58,4 +59,4 @@
 
 ---
 
-*最后更新：2026-04-21*
+*最后更新：2026-04-28*

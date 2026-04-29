@@ -8,11 +8,27 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Nunito', "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
     background: #13101F;
     color: #E8E4F0;
     overflow-x: hidden;
   }
+
+  /* Floating decorative emojis in background */
+  .float-deco {
+    position: fixed; pointer-events: none; z-index: 0;
+    opacity: 0.06; font-size: 80px;
+    animation: float 8s ease-in-out infinite;
+  }
+  .float-deco.f1 { top: 10%; left: 5%; animation-delay: 0s; }
+  .float-deco.f2 { top: 60%; left: 8%; animation-delay: 2s; }
+  .float-deco.f3 { top: 30%; right: 8%; animation-delay: 4s; }
+  .float-deco.f4 { top: 80%; right: 5%; animation-delay: 6s; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+  }
+
   .side-nav {
     position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
     display: flex; flex-direction: column; gap: 12px; z-index: 100;
@@ -27,25 +43,52 @@
   .side-nav a:hover, .side-nav a.active {
     background: rgba(255,138,128,0.25); border-color: #FF8A80;
     color: #fff; box-shadow: 0 0 16px rgba(255,138,128,0.4);
+    transform: scale(1.15);
   }
+
   .section {
     min-height: 100vh; display: flex; align-items: center; justify-content: center;
-    padding: 60px 80px; position: relative;
+    padding: 60px 80px; position: relative; z-index: 1;
   }
   .section:nth-child(even) { background: rgba(255,255,255,0.02); }
   .card {
     max-width: 1100px; width: 100%; border-radius: 24px;
     background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
     padding: 56px 64px; backdrop-filter: blur(12px);
+    position: relative;
   }
+  /* Cute corner decorations on cards */
+  .card::before {
+    content: '✨'; position: absolute; top: 16px; right: 24px;
+    font-size: 28px; opacity: 0.4;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.2); }
+  }
+
   h1 {
     font-size: 52px; font-weight: 900; margin-bottom: 12px;
-    background: linear-gradient(135deg, #FF8A80, #FFD180, #A5D6A7);
+    background: linear-gradient(135deg, #FF8A80, #FFD180, #A5D6A7, #81D4FA, #CE93D8);
+    background-size: 200% 200%;
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    animation: gradient-flow 6s ease infinite;
   }
-  h2 { font-size: 36px; font-weight: 800; margin-bottom: 24px; color: #E0D6F0; }
+  @keyframes gradient-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  h2 {
+    font-size: 36px; font-weight: 800; margin-bottom: 24px; color: #E0D6F0;
+    display: flex; align-items: center; gap: 14px;
+  }
+  h2 .h2-emoji { font-size: 44px; }
   h3 { font-size: 22px; font-weight: 700; margin-bottom: 16px; color: #CE93D8; }
-  .subtitle { font-size: 20px; color: #A89CC8; margin-bottom: 40px; font-weight: 600; }
+  .subtitle {
+    font-size: 20px; color: #A89CC8; margin-bottom: 40px; font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
+  }
 
   .coral { color: #FF8A80; }
   .mint { color: #A5D6A7; }
@@ -59,7 +102,13 @@
   }
   .data-card {
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 16px; padding: 28px; text-align: center;
+    border-radius: 20px; padding: 28px; text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+  .data-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(255,138,128,0.15); }
+  .data-card .card-emoji {
+    font-size: 36px; margin-bottom: 8px; display: block;
   }
   .data-card .label { font-size: 14px; color: #A89CC8; margin-bottom: 8px; font-weight: 600; }
   .data-card .value { font-size: 36px; font-weight: 900; }
@@ -67,7 +116,7 @@
 
   table {
     width: 100%; border-collapse: separate; border-spacing: 0;
-    margin: 24px 0; border-radius: 12px; overflow: hidden;
+    margin: 24px 0; border-radius: 16px; overflow: hidden;
   }
   th {
     background: rgba(206,147,216,0.15); color: #CE93D8;
@@ -77,36 +126,59 @@
     padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
     font-size: 15px;
   }
+  td .row-emoji { font-size: 20px; margin-right: 8px; }
   tr:last-child td { border-bottom: none; }
   tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
 
   .scenario-box {
-    border-radius: 16px; padding: 28px 32px; margin: 16px 0;
+    border-radius: 20px; padding: 28px 32px; margin: 16px 0;
+    position: relative;
+  }
+  .scenario-box .scenario-emoji {
+    position: absolute; top: -16px; left: 24px;
+    width: 56px; height: 56px;
+    background: #1A1530; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    border: 3px solid;
   }
   .scenario-ideal {
     background: rgba(165,214,167,0.08); border: 1px solid rgba(165,214,167,0.25);
   }
+  .scenario-ideal .scenario-emoji { border-color: #A5D6A7; }
   .scenario-mild {
     background: rgba(255,209,128,0.08); border: 1px solid rgba(255,209,128,0.25);
   }
+  .scenario-mild .scenario-emoji { border-color: #FFD180; }
   .scenario-bad {
     background: rgba(255,138,128,0.08); border: 1px solid rgba(255,138,128,0.25);
   }
+  .scenario-bad .scenario-emoji { border-color: #FF8A80; }
+  .scenario-box h3 { margin-top: 12px; }
 
   .risk-cards { display: flex; gap: 20px; flex-wrap: wrap; margin: 32px 0; }
   .risk-card {
-    flex: 1; min-width: 280px; border-radius: 16px; padding: 32px;
+    flex: 1; min-width: 280px; border-radius: 20px; padding: 32px;
     background: rgba(255,138,128,0.06); border: 1px solid rgba(255,138,128,0.15);
+    position: relative; transition: transform 0.3s;
+  }
+  .risk-card:hover { transform: translateY(-4px); }
+  .risk-card .risk-emoji {
+    font-size: 48px; margin-bottom: 12px; display: block;
   }
   .risk-card h3 { color: #FF8A80; font-size: 18px; }
   .risk-card p { font-size: 15px; color: #C8BED8; line-height: 1.7; }
 
   .summary-list { list-style: none; margin: 24px 0; }
   .summary-list li {
-    padding: 16px 20px; margin-bottom: 12px; border-radius: 12px;
+    padding: 18px 22px; margin-bottom: 12px; border-radius: 14px;
     background: rgba(255,255,255,0.04); border-left: 4px solid;
     font-size: 16px; line-height: 1.6;
+    display: flex; align-items: flex-start; gap: 16px;
+    transition: transform 0.2s;
   }
+  .summary-list li:hover { transform: translateX(6px); }
+  .summary-list li .li-emoji { font-size: 28px; flex-shrink: 0; }
   .summary-list li:nth-child(1) { border-color: #FF8A80; }
   .summary-list li:nth-child(2) { border-color: #A5D6A7; }
   .summary-list li:nth-child(3) { border-color: #FFD180; }
@@ -117,13 +189,16 @@
     display: flex; align-items: center; gap: 16px; margin: 12px 0;
     font-size: 18px;
   }
-  .profit-row .profit-label { color: #A89CC8; min-width: 220px; }
+  .profit-row .profit-emoji { font-size: 22px; }
+  .profit-row .profit-label { color: #A89CC8; flex: 1; }
   .profit-row .profit-value { font-weight: 800; font-size: 24px; }
 
   .promo-card { text-align: center; max-width: 700px; margin: 0 auto; }
+  .promo-card .promo-emoji { font-size: 72px; display: block; margin-bottom: 12px; }
   .promo-card h2 {
     background: linear-gradient(135deg, #CE93D8, #81D4FA);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    justify-content: center;
   }
   .promo-card p { font-size: 18px; color: #C8BED8; line-height: 1.8; margin-top: 16px; }
   .promo-badge {
@@ -135,8 +210,16 @@
 
   .engine-card {
     background: rgba(129,212,250,0.06); border: 1px solid rgba(129,212,250,0.2);
-    border-radius: 16px; padding: 28px; margin: 16px 0;
+    border-radius: 20px; padding: 28px; margin: 16px 0;
+    display: flex; gap: 24px; align-items: flex-start;
   }
+  .engine-card .engine-emoji {
+    font-size: 56px; flex-shrink: 0;
+    width: 96px; height: 96px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(129,212,250,0.1); border-radius: 24px;
+  }
+  .engine-card .engine-content { flex: 1; }
   .engine-card h3 { color: #81D4FA; font-size: 20px; margin-bottom: 12px; }
   .engine-card p { font-size: 15px; color: #C8BED8; line-height: 1.7; }
 
@@ -146,23 +229,57 @@
   .house-step {
     display: flex; align-items: center; gap: 24px;
     background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 16px; padding: 24px 32px;
+    border-radius: 20px; padding: 24px 32px;
+    transition: transform 0.3s;
   }
+  .house-step:hover { transform: scale(1.02); }
   .house-step .icon {
-    font-size: 42px; flex-shrink: 0;
-    width: 80px; height: 80px;
+    font-size: 48px; flex-shrink: 0;
+    width: 88px; height: 88px;
     display: flex; align-items: center; justify-content: center;
     border-radius: 50%; background: rgba(255,255,255,0.05);
   }
   .house-step .content { flex: 1; }
   .house-step .step-title { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
   .house-step .step-desc { font-size: 15px; color: #A89CC8; }
-  .house-step .step-amount {
-    font-size: 24px; font-weight: 900; flex-shrink: 0;
+  .house-step .step-amount { font-size: 24px; font-weight: 900; flex-shrink: 0; }
+
+  .conclusion-box {
+    margin-top: 32px; padding: 24px; border-radius: 18px;
+    background: rgba(165,214,167,0.06); border: 1px solid rgba(165,214,167,0.2);
+    text-align: center;
+  }
+  .conclusion-box.warn {
+    background: rgba(255,138,128,0.08); border-color: rgba(255,138,128,0.25);
+  }
+  .conclusion-box.peach-bg {
+    background: rgba(255,209,128,0.06); border-color: rgba(255,209,128,0.2);
+  }
+  .conclusion-box.lavender-bg {
+    background: rgba(206,147,216,0.06); border-color: rgba(206,147,216,0.2);
+  }
+  .conclusion-box .conclusion-emoji {
+    font-size: 36px; display: block; margin-bottom: 8px;
+  }
+
+  .strategy-icon-row {
+    display: flex; justify-content: center; gap: 32px; margin: 24px 0;
+  }
+  .strategy-icon-row .si {
+    text-align: center; font-size: 14px; color: #A89CC8; font-weight: 600;
+  }
+  .strategy-icon-row .si-emoji {
+    display: block; font-size: 48px; margin-bottom: 6px;
   }
 </style>
 </head>
 <body>
+
+<!-- Decorative floating emojis -->
+<div class="float-deco f1">📅</div>
+<div class="float-deco f2">⏳</div>
+<div class="float-deco f3">💰</div>
+<div class="float-deco f4">🎯</div>
 
 <nav class="side-nav">
   <a href="#s1">1</a><a href="#s2">2</a><a href="#s3">3</a>
@@ -174,14 +291,17 @@
 <!-- Page 1: Title -->
 <section class="section" id="s1">
   <div class="card" style="text-align:center;">
+    <div style="font-size:80px; margin-bottom:8px;">📅⏳💰</div>
     <h1>Calendar Spread 日历价差</h1>
-    <p class="subtitle">横盘震荡市的时间套利神器</p>
+    <p class="subtitle" style="justify-content:center;">🌸 横盘震荡市的时间套利神器 🌸</p>
     <div class="data-grid" style="max-width:600px; margin:32px auto;">
       <div class="data-card">
+        <span class="card-emoji">🎯</span>
         <div class="label">教学标的</div>
         <div class="value coral">TQQQ</div>
       </div>
       <div class="data-card">
+        <span class="card-emoji">💵</span>
         <div class="label">假设股价</div>
         <div class="value mint">$60</div>
       </div>
@@ -192,27 +312,31 @@
 <!-- Page 2: 高波动横盘的两难 -->
 <section class="section" id="s2">
   <div class="card">
-    <h2>高波动横盘市的两难</h2>
-    <p class="subtitle">VIX 30+ / 每日 ±3-5% / 月度涨跌为零</p>
+    <h2><span class="h2-emoji">😵‍💫</span>高波动横盘市的两难</h2>
+    <p class="subtitle">🌪️ VIX 30+ &nbsp;·&nbsp; 每日 ±3-5% &nbsp;·&nbsp; 月度涨跌为零</p>
     <div class="data-grid" style="grid-template-columns: repeat(3, 1fr);">
       <div class="data-card" style="border-color: rgba(255,138,128,0.3);">
+        <span class="card-emoji">😨</span>
         <div class="label" style="color:#FF8A80; font-size:16px;">Sell Put</div>
         <div class="value" style="font-size:22px;">怕被打穿</div>
         <div class="note">一根大阴线月利润归零</div>
       </div>
       <div class="data-card" style="border-color: rgba(255,209,128,0.3);">
+        <span class="card-emoji">😖</span>
         <div class="label" style="color:#FFD180; font-size:16px;">Buy Call</div>
         <div class="value" style="font-size:22px;">来回打脸</div>
         <div class="note">Theta 把权利金吃光</div>
       </div>
       <div class="data-card" style="border-color: rgba(206,147,216,0.3);">
+        <span class="card-emoji">💥</span>
         <div class="label" style="color:#CE93D8; font-size:16px;">Iron Condor</div>
         <div class="value" style="font-size:22px;">区间易破</div>
         <div class="note">单侧大亏吃掉数月利润</div>
       </div>
     </div>
-    <div style="text-align:center; margin-top:32px; padding:24px; border-radius:16px; background:rgba(165,214,167,0.06); border:1px solid rgba(165,214,167,0.2);">
-      <p style="font-size:20px; color:#A5D6A7; font-weight:800;">不赌方向，从波动里捡时间的钱 &rarr; Calendar Spread</p>
+    <div class="conclusion-box">
+      <span class="conclusion-emoji">🎁</span>
+      <p style="font-size:20px; color:#A5D6A7; font-weight:800;">不赌方向，从波动里捡时间的钱 → Calendar Spread</p>
     </div>
   </div>
 </section>
@@ -220,11 +344,11 @@
 <!-- Page 3: 房产类比 -->
 <section class="section" id="s3">
   <div class="card">
-    <h2>Calendar Spread = 长租 + 短租分租</h2>
-    <p class="subtitle">$60 街热门房子，长租便宜短租贵的差价游戏</p>
+    <h2><span class="h2-emoji">🏠</span>Calendar Spread = 长租 + 短租分租</h2>
+    <p class="subtitle">📍 $60 街热门房子，长租便宜短租贵的差价游戏</p>
     <div class="house-flow">
       <div class="house-step">
-        <div class="icon">&#x1F511;</div>
+        <div class="icon">🏘️</div>
         <div class="content">
           <div class="step-title coral">Buy 90天 $60 Call（长期租约）</div>
           <div class="step-desc">付押金，长期租下 $60 街的房子</div>
@@ -232,7 +356,7 @@
         <div class="step-amount" style="color:#FF8A80;">-$400</div>
       </div>
       <div class="house-step">
-        <div class="icon">&#x1F4B5;</div>
+        <div class="icon">💵</div>
         <div class="content">
           <div class="step-title mint">Sell 30天 $60 Call（短期分租）</div>
           <div class="step-desc">短租给客户 30 天，热门地段短租贵</div>
@@ -240,7 +364,7 @@
         <div class="step-amount" style="color:#A5D6A7;">+$200</div>
       </div>
       <div class="house-step" style="border-color:rgba(255,209,128,0.3); background:rgba(255,209,128,0.06);">
-        <div class="icon">&#x1F4CA;</div>
+        <div class="icon">🛡️</div>
         <div class="content">
           <div class="step-title peach">净付出 = 最大亏损</div>
           <div class="step-desc">无论市场怎么走，最多亏这个数</div>
@@ -254,41 +378,48 @@
 <!-- Page 4: 开仓数据 -->
 <section class="section" id="s4">
   <div class="card">
-    <h2>开仓数据</h2>
+    <h2><span class="h2-emoji">📋</span>开仓数据</h2>
     <div class="data-grid">
       <div class="data-card">
+        <span class="card-emoji">📍</span>
         <div class="label">TQQQ 现价</div>
         <div class="value mint">$60</div>
       </div>
       <div class="data-card">
+        <span class="card-emoji">🎯</span>
         <div class="label">行权价（同）</div>
         <div class="value peach">$60</div>
         <div class="note">ATM</div>
       </div>
       <div class="data-card">
+        <span class="card-emoji">📤</span>
         <div class="label">Sell 近月 Call</div>
         <div class="value" style="font-size:28px; color:#A5D6A7;">+$200</div>
         <div class="note">30 DTE × $2.00</div>
       </div>
       <div class="data-card">
+        <span class="card-emoji">📥</span>
         <div class="label">Buy 远月 Call</div>
         <div class="value" style="font-size:28px; color:#FF8A80;">-$400</div>
         <div class="note">90 DTE × $4.00</div>
       </div>
       <div class="data-card" style="border:2px solid rgba(255,209,128,0.5);">
+        <span class="card-emoji">🛡️</span>
         <div class="label" style="color:#FFD180;">净 Debit</div>
         <div class="value peach">$200</div>
         <div class="note">最大亏损锁死</div>
       </div>
       <div class="data-card" style="border:2px solid rgba(165,214,167,0.5);">
+        <span class="card-emoji">💎</span>
         <div class="label" style="color:#A5D6A7;">理想最大利润</div>
         <div class="value mint">~$120</div>
         <div class="note">回报率 ~60%</div>
       </div>
     </div>
-    <div style="margin-top:24px; padding:20px; border-radius:12px; background:rgba(255,138,128,0.06); border:1px solid rgba(255,138,128,0.2);">
+    <div class="conclusion-box warn">
+      <span class="conclusion-emoji">🔒</span>
       <p style="color:#FF8A80; font-weight:700; font-size:16px;">
-        铁律：最大亏损在开仓那一刻就锁死了 &mdash; 无论市场怎么暴雷，你最多亏 $200
+        铁律：最大亏损在开仓那一刻就锁死了 — 无论市场怎么暴雷，你最多亏 $200
       </p>
     </div>
   </div>
@@ -297,29 +428,32 @@
 <!-- Page 5: 30天后三种结局 -->
 <section class="section" id="s5">
   <div class="card">
-    <h2>30 天后的三种结局</h2>
-    <div class="scenario-box scenario-ideal">
+    <h2><span class="h2-emoji">🎬</span>30 天后的三种结局</h2>
+    <div class="scenario-box scenario-ideal" style="margin-top:32px;">
+      <div class="scenario-emoji">🌟</div>
       <h3 style="color:#A5D6A7;">结局一：TQQQ 收在 $60 附近（理想）</h3>
-      <div class="profit-row"><span class="profit-label">近月 $60 Call 作废</span><span class="profit-value mint">$0</span></div>
-      <div class="profit-row"><span class="profit-label">远月 $60 Call 剩 60 DTE</span><span class="profit-value mint">$320</span></div>
-      <div class="profit-row"><span class="profit-label">减去最初净付出</span><span class="profit-value coral">-$200</span></div>
+      <div class="profit-row"><span class="profit-emoji">💨</span><span class="profit-label">近月 $60 Call 作废</span><span class="profit-value mint">$0</span></div>
+      <div class="profit-row"><span class="profit-emoji">📈</span><span class="profit-label">远月 $60 Call 剩 60 DTE</span><span class="profit-value mint">$320</span></div>
+      <div class="profit-row"><span class="profit-emoji">➖</span><span class="profit-label">减去最初净付出</span><span class="profit-value coral">-$200</span></div>
       <hr style="border:1px solid rgba(255,255,255,0.1); margin:8px 0;">
-      <div class="profit-row"><span class="profit-label" style="color:#FFD180; font-weight:800;">总利润</span><span class="profit-value" style="color:#FFD180; font-size:30px;">+$120 (60%)</span></div>
+      <div class="profit-row"><span class="profit-emoji">🎉</span><span class="profit-label" style="color:#FFD180; font-weight:800;">总利润</span><span class="profit-value" style="color:#FFD180; font-size:30px;">+$120 (60%)</span></div>
     </div>
-    <div class="scenario-box scenario-mild">
+    <div class="scenario-box scenario-mild" style="margin-top:32px;">
+      <div class="scenario-emoji">😊</div>
       <h3 style="color:#FFD180;">结局二：TQQQ 在 $56 - $64 之间（小幅波动）</h3>
-      <p style="font-size:16px; color:#C8BED8; line-height:1.7;">
-        $58 / $62 偏离 ~3%：约 $50-$80 利润<br>
-        $56 / $64 偏离 ~7%：基本接近盈亏平衡<br>
-        盈利区间 ≈ 行权价 ±5-7%
+      <p style="font-size:16px; color:#C8BED8; line-height:1.9;">
+        🌤️ &nbsp; $58 / $62 偏离 ~3%：约 <strong style="color:#FFD180;">$50-$80 利润</strong><br>
+        ⚖️ &nbsp; $56 / $64 偏离 ~7%：基本接近盈亏平衡<br>
+        🎯 &nbsp; 盈利区间 ≈ 行权价 ±5-7%
       </p>
     </div>
-    <div class="scenario-box scenario-bad">
+    <div class="scenario-box scenario-bad" style="margin-top:32px;">
+      <div class="scenario-emoji">😱</div>
       <h3 style="color:#FF8A80;">结局三：TQQQ 突破 $56 以下或 $64 以上（剧烈波动）</h3>
-      <p style="font-size:16px; color:#C8BED8; line-height:1.7;">
-        近月与远月 Call 的内在价值同步变动，Theta 优势消失<br>
-        最坏情况：亏掉全部 $200 净 Debit<br>
-        但 <strong style="color:#FF8A80;">最多亏 $200，不会再多</strong>
+      <p style="font-size:16px; color:#C8BED8; line-height:1.9;">
+        ⚡ &nbsp; 近月与远月 Call 内在价值同步变动，Theta 优势消失<br>
+        💥 &nbsp; 最坏情况：亏掉全部 $200 净 Debit<br>
+        🛡️ &nbsp; 但 <strong style="color:#FF8A80;">最多亏 $200，不会再多</strong>
       </p>
     </div>
   </div>
@@ -328,20 +462,27 @@
 <!-- Page 6: 两大引擎 -->
 <section class="section" id="s6">
   <div class="card">
-    <h2>两大赚钱引擎</h2>
+    <h2><span class="h2-emoji">⚙️</span>两大赚钱引擎</h2>
     <div class="engine-card">
-      <h3>引擎一：Theta 时间差</h3>
-      <p>近月 Call 的时间衰减速度远大于远月 Call。<br>
-      你卖出的近月 Call 每天给你正 Theta 收入，买入的远月 Call 每天损失的 Theta 远小于此。<br>
-      <strong style="color:#A5D6A7;">每天净收 Theta 差价 — 越接近到期日，赚钱速度越快。</strong></p>
+      <div class="engine-emoji">⏳</div>
+      <div class="engine-content">
+        <h3>引擎一：Theta 时间差</h3>
+        <p>近月 Call 的时间衰减速度远大于远月 Call。<br>
+        你卖出的近月 Call 每天给你正 Theta 收入，买入的远月 Call 每天损失的 Theta 远小于此。<br>
+        <strong style="color:#A5D6A7;">⚡ 每天净收 Theta 差价 — 越接近到期日，赚钱速度越快。</strong></p>
+      </div>
     </div>
     <div class="engine-card">
-      <h3>引擎二：Vega 波动率差（Long Vega 策略）</h3>
-      <p>当 IV 上升时，远月 Call 的升值幅度大于近月 Call。<br>
-      <strong style="color:#A5D6A7;">最佳开仓时机：IV 处于近期低位，预期 IV 会反弹 — 等 Vega 反弹赚双引擎。</strong><br>
-      <strong style="color:#FF8A80;">隐藏风险：IV Crush — 在高 IV 时开仓，IV 暴跌让远月 Call 快速贬值。</strong></p>
+      <div class="engine-emoji">🌊</div>
+      <div class="engine-content">
+        <h3>引擎二：Vega 波动率差（Long Vega 策略）</h3>
+        <p>当 IV 上升时，远月 Call 的升值幅度大于近月 Call。<br>
+        <strong style="color:#A5D6A7;">✅ 最佳开仓时机：IV 处于近期低位，预期 IV 会反弹 — 等 Vega 反弹赚双引擎。</strong><br>
+        <strong style="color:#FF8A80;">❌ 隐藏风险：IV Crush — 在高 IV 时开仓，IV 暴跌让远月 Call 快速贬值。</strong></p>
+      </div>
     </div>
-    <div style="margin-top:24px; padding:24px; border-radius:16px; background:rgba(255,138,128,0.08); border:1px solid rgba(255,138,128,0.25); text-align:center;">
+    <div class="conclusion-box warn">
+      <span class="conclusion-emoji">🚫</span>
       <p style="color:#FF8A80; font-weight:800; font-size:18px;">
         铁律：财报前 + IV 历史高位 = 绝对不开 Calendar
       </p>
@@ -353,19 +494,19 @@
 <!-- Page 7: 关键参数 -->
 <section class="section" id="s7">
   <div class="card">
-    <h2>关键参数速查表</h2>
+    <h2><span class="h2-emoji">🎚️</span>关键参数速查表</h2>
     <table>
       <thead>
         <tr><th>维度</th><th>选择标准</th></tr>
       </thead>
       <tbody>
-        <tr><td class="lavender">近月 DTE</td><td>30-45 天（Theta 衰减最快）</td></tr>
-        <tr><td class="lavender">远月 DTE</td><td>60-90 天（成本可控、时间价值厚）</td></tr>
-        <tr><td class="lavender">行权价</td><td>ATM = 当前股价（利润最大）</td></tr>
-        <tr><td class="lavender">入场时机</td><td>IV Rank 低位（IVR &lt; 30），预期 IV 会反弹</td></tr>
-        <tr><td class="lavender">禁忌</td><td>财报前一周内不开仓</td></tr>
-        <tr><td class="lavender">止盈</td><td>浮盈达最大利润 50-75% 主动平仓</td></tr>
-        <tr><td class="lavender">止损</td><td>浮亏达净 Debit 50% 考虑平仓</td></tr>
+        <tr><td class="lavender"><span class="row-emoji">🚀</span>近月 DTE</td><td>30-45 天（Theta 衰减最快）</td></tr>
+        <tr><td class="lavender"><span class="row-emoji">🐢</span>远月 DTE</td><td>60-90 天（成本可控、时间价值厚）</td></tr>
+        <tr><td class="lavender"><span class="row-emoji">🎯</span>行权价</td><td>ATM = 当前股价（利润最大）</td></tr>
+        <tr><td class="lavender"><span class="row-emoji">⏰</span>入场时机</td><td>IV Rank 低位（IVR &lt; 30），预期 IV 会反弹</td></tr>
+        <tr><td class="lavender"><span class="row-emoji">🚫</span>禁忌</td><td>财报前一周内不开仓</td></tr>
+        <tr><td class="lavender"><span class="row-emoji">💰</span>止盈</td><td>浮盈达最大利润 50-75% 主动平仓</td></tr>
+        <tr><td class="lavender"><span class="row-emoji">🛡️</span>止损</td><td>浮亏达净 Debit 50% 考虑平仓</td></tr>
       </tbody>
     </table>
   </div>
@@ -374,17 +515,20 @@
 <!-- Page 8: 三大风险 -->
 <section class="section" id="s8">
   <div class="card">
-    <h2>三大风险</h2>
+    <h2><span class="h2-emoji">⚠️</span>三大风险</h2>
     <div class="risk-cards">
       <div class="risk-card">
+        <span class="risk-emoji">🌪️</span>
         <h3>风险一：方向风险</h3>
         <p>Calendar 喜欢温和波动，遇到大涨大跌（暴涨 15%）会接近最大亏损。<strong>只适合横盘震荡或温和波动行情，不适合明确趋势。</strong></p>
       </div>
       <div class="risk-card">
+        <span class="risk-emoji">💥</span>
         <h3>风险二：IV Crush</h3>
         <p>高 IV 时开仓（财报前、地缘事件前），事件落地后 IV 暴跌，远月 Call 大幅贬值。<strong>财报前一周内绝对不开仓。</strong></p>
       </div>
       <div class="risk-card">
+        <span class="risk-emoji">🚨</span>
         <h3>风险三：早期行权</h3>
         <p>近月 Call 变 Deep ITM 且接近除息日，可能被对手方提前行权。<strong>主动 Roll 或平仓。ETF 少见，个股要留意。</strong></p>
       </div>
@@ -395,26 +539,32 @@
 <!-- Page 9: 三策略对比 -->
 <section class="section" id="s9">
   <div class="card">
-    <h2>Calendar vs Iron Condor vs 轮子策略</h2>
+    <h2><span class="h2-emoji">⚖️</span>Calendar vs Iron Condor vs 轮子策略</h2>
+    <div class="strategy-icon-row">
+      <div class="si"><span class="si-emoji">📅</span>Calendar</div>
+      <div class="si"><span class="si-emoji">🦅</span>Iron Condor</div>
+      <div class="si"><span class="si-emoji">⚙️</span>轮子策略</div>
+    </div>
     <table>
       <thead>
-        <tr><th>维度</th><th>Calendar Spread</th><th>Iron Condor</th><th>轮子策略</th></tr>
+        <tr><th>维度</th><th>📅 Calendar Spread</th><th>🦅 Iron Condor</th><th>⚙️ 轮子策略</th></tr>
       </thead>
       <tbody>
-        <tr><td class="lavender">适合行情</td><td>横盘 + 温和波动</td><td>横盘 + 低波动</td><td>长期看好 + 愿持股</td></tr>
-        <tr><td class="lavender">方向风险</td><td>中（突破区间小亏）</td><td>高（突破单侧大亏）</td><td>低（接盘也能收租）</td></tr>
-        <tr><td class="lavender">净仓位</td><td>付 Debit (Long Vega)</td><td>收 Credit (Short Vega)</td><td>收 Credit</td></tr>
-        <tr><td class="lavender">开仓 IV 时机</td><td class="mint">IV 低位（期待上升）</td><td class="coral">IV 高位（期待回落）</td><td>IV 中性</td></tr>
-        <tr><td class="lavender">最大亏损</td><td>净 Debit（小）</td><td>区间宽 - 权利金（中）</td><td>股价归零（大）</td></tr>
-        <tr><td class="lavender">资金占用</td><td>小</td><td>中</td><td>大</td></tr>
-        <tr><td class="lavender">适合阶段</td><td>短期战术</td><td>短期战术</td><td>长期建仓</td></tr>
+        <tr><td class="lavender"><span class="row-emoji">🌤️</span>适合行情</td><td>横盘 + 温和波动</td><td>横盘 + 低波动</td><td>长期看好 + 愿持股</td></tr>
+        <tr><td class="lavender"><span class="row-emoji">🎯</span>方向风险</td><td>中（突破区间小亏）</td><td>高（突破单侧大亏）</td><td>低（接盘也能收租）</td></tr>
+        <tr><td class="lavender"><span class="row-emoji">💼</span>净仓位</td><td>付 Debit (Long Vega)</td><td>收 Credit (Short Vega)</td><td>收 Credit</td></tr>
+        <tr><td class="lavender"><span class="row-emoji">🌊</span>开仓 IV 时机</td><td class="mint">IV 低位（期待上升）</td><td class="coral">IV 高位（期待回落）</td><td>IV 中性</td></tr>
+        <tr><td class="lavender"><span class="row-emoji">💥</span>最大亏损</td><td>净 Debit（小）</td><td>区间宽 - 权利金（中）</td><td>股价归零（大）</td></tr>
+        <tr><td class="lavender"><span class="row-emoji">💰</span>资金占用</td><td>小</td><td>中</td><td>大</td></tr>
+        <tr><td class="lavender"><span class="row-emoji">📅</span>适合阶段</td><td>短期战术</td><td>短期战术</td><td>长期建仓</td></tr>
       </tbody>
     </table>
-    <div style="margin-top:20px; padding:20px; border-radius:12px; background:rgba(206,147,216,0.06); border:1px solid rgba(206,147,216,0.2);">
-      <p style="color:#CE93D8; font-size:16px; line-height:1.8; text-align:center;">
-        <strong>横盘 + IV 低位（期待上升）</strong> &rarr; Calendar 最佳（吃 Vega 反弹）<br>
-        <strong>横盘 + IV 高位（期待回落）</strong> &rarr; Iron Condor 更合适（吃 Vega 收缩 + Theta）<br>
-        <strong>长期看好的标的</strong> &rarr; 轮子策略才是底仓
+    <div class="conclusion-box lavender-bg">
+      <span class="conclusion-emoji">🎯</span>
+      <p style="color:#CE93D8; font-size:16px; line-height:1.9; text-align:center;">
+        <strong>📅 横盘 + IV 低位（期待上升）</strong> → Calendar 最佳（吃 Vega 反弹）<br>
+        <strong>🦅 横盘 + IV 高位（期待回落）</strong> → Iron Condor 更合适（吃 Vega 收缩 + Theta）<br>
+        <strong>⚙️ 长期看好的标的</strong> → 轮子策略才是底仓
       </p>
     </div>
   </div>
@@ -424,9 +574,10 @@
 <section class="section" id="s10">
   <div class="card">
     <div class="promo-card">
+      <span class="promo-emoji">💬</span>
       <h2>VIP Discord 社区</h2>
-      <p>见证百万之路，看到每一个实时操作<br>300 名付费用户一起交流心得与经验</p>
-      <div class="promo-badge">链接在视频描述和置顶评论</div>
+      <p>🚀 见证百万之路，看到每一个实时操作<br>👥 300 名付费用户一起交流心得与经验</p>
+      <div class="promo-badge">🔗 链接在视频描述和置顶评论</div>
     </div>
   </div>
 </section>
@@ -434,15 +585,16 @@
 <!-- Page 11: 总结 -->
 <section class="section" id="s11">
   <div class="card">
-    <h2>核心要点</h2>
+    <h2><span class="h2-emoji">📝</span>核心要点</h2>
     <ul class="summary-list">
-      <li><strong>Calendar 本质</strong> 卖近月 + 买远月（同行权价），用时间差和波动率差赚钱</li>
-      <li><strong>最大亏损锁死</strong> 开仓即等于净 Debit，不会再多</li>
-      <li><strong>三种结局分明</strong> 不动赚最多 / 小幅小赚 / 剧烈波动亏 Debit</li>
-      <li><strong>两大引擎</strong> Theta 时间衰减差 + Vega 波动率差</li>
-      <li><strong>铁律必守</strong> 避开财报前一周、ATM 行权价、止盈 50-75% 主动离场</li>
+      <li><span class="li-emoji">🎯</span><div><strong>Calendar 本质</strong> 卖近月 + 买远月（同行权价），用时间差和波动率差赚钱</div></li>
+      <li><span class="li-emoji">🛡️</span><div><strong>最大亏损锁死</strong> 开仓即等于净 Debit，不会再多</div></li>
+      <li><span class="li-emoji">🎬</span><div><strong>三种结局分明</strong> 不动赚最多 / 小幅小赚 / 剧烈波动亏 Debit</div></li>
+      <li><span class="li-emoji">⚙️</span><div><strong>两大引擎</strong> Theta 时间衰减差 + Vega 波动率差</div></li>
+      <li><span class="li-emoji">⚠️</span><div><strong>铁律必守</strong> 避开财报前一周、ATM 行权价、止盈 50-75% 主动离场</div></li>
     </ul>
-    <div style="margin-top:32px; padding:24px; border-radius:16px; background:rgba(255,209,128,0.06); border:1px solid rgba(255,209,128,0.2); text-align:center;">
+    <div class="conclusion-box peach-bg">
+      <span class="conclusion-emoji">💎</span>
       <p style="color:#FFD180; font-size:20px; font-weight:800; line-height:1.6;">
         真正的高手，不需要预测涨跌<br>只需要让时间站在自己这边
       </p>
@@ -454,12 +606,13 @@
 <section class="section" id="s12">
   <div class="card">
     <div class="promo-card">
+      <span class="promo-emoji">📺✨</span>
       <h2 style="background: linear-gradient(135deg, #FFD180, #FF8A80); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">下期预告</h2>
-      <p style="font-size:24px; color:#FFD180; font-weight:800; margin-top:16px;">
-        财报季期权玩法
+      <p style="font-size:26px; color:#FFD180; font-weight:800; margin-top:16px;">
+        💥 财报季期权玩法
       </p>
       <p style="font-size:16px; color:#A89CC8; margin-top:12px;">
-        IV Crush 的赚钱与避坑指南 — 散户翻车圣地的生存法则
+        🔥 IV Crush 的赚钱与避坑指南<br>📉 散户翻车圣地的生存法则
       </p>
     </div>
   </div>
