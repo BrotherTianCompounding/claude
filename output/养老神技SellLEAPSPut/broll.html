@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>养老神技 Sell LEAPS Put — B-Roll</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Nunito', "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+    background: #13101F;
+    color: #E8E4F0;
+    overflow-x: hidden;
+  }
+
+  .float-deco {
+    position: fixed; pointer-events: none; z-index: 0;
+    opacity: 0.06; font-size: 80px;
+    animation: float 8s ease-in-out infinite;
+  }
+  .float-deco.f1 { top: 10%; left: 5%; animation-delay: 0s; }
+  .float-deco.f2 { top: 60%; left: 8%; animation-delay: 2s; }
+  .float-deco.f3 { top: 30%; right: 8%; animation-delay: 4s; }
+  .float-deco.f4 { top: 80%; right: 5%; animation-delay: 6s; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+  }
+
+  .side-nav {
+    position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 10px; z-index: 100;
+  }
+  .side-nav a {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: #A89CC8; font-size: 12px; font-weight: 700;
+    text-decoration: none; transition: all 0.3s;
+  }
+  .side-nav a:hover, .side-nav a.active {
+    background: rgba(255,138,128,0.25); border-color: #FF8A80;
+    color: #fff; box-shadow: 0 0 16px rgba(255,138,128,0.4);
+    transform: scale(1.15);
+  }
+
+  .section {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 60px 80px; position: relative; z-index: 1;
+  }
+  .section:nth-child(even) { background: rgba(255,255,255,0.02); }
+  .card {
+    max-width: 1100px; width: 100%; border-radius: 24px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    padding: 56px 64px; backdrop-filter: blur(12px);
+    position: relative;
+  }
+  .card::before {
+    content: '✨'; position: absolute; top: 16px; right: 24px;
+    font-size: 28px; opacity: 0.4;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.2); }
+  }
+
+  h1 {
+    font-size: 52px; font-weight: 900; margin-bottom: 12px;
+    background: linear-gradient(135deg, #FF8A80, #FFD180, #A5D6A7, #81D4FA, #CE93D8);
+    background-size: 200% 200%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    animation: gradient-flow 6s ease infinite;
+  }
+  @keyframes gradient-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  h2 {
+    font-size: 36px; font-weight: 800; margin-bottom: 24px; color: #E0D6F0;
+    display: flex; align-items: center; gap: 14px;
+  }
+  h2 .h2-emoji { font-size: 44px; }
+  h3 { font-size: 22px; font-weight: 700; margin-bottom: 16px; color: #CE93D8; }
+  .subtitle {
+    font-size: 20px; color: #A89CC8; margin-bottom: 40px; font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .coral { color: #FF8A80; }
+  .mint { color: #A5D6A7; }
+  .lavender { color: #CE93D8; }
+  .peach { color: #FFD180; }
+  .sky { color: #81D4FA; }
+
+  .data-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px; margin: 32px 0;
+  }
+  .data-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px; padding: 28px; text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+  .data-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(255,138,128,0.15); }
+  .data-card .card-emoji { font-size: 36px; margin-bottom: 8px; display: block; }
+  .data-card .label { font-size: 14px; color: #A89CC8; margin-bottom: 8px; font-weight: 600; }
+  .data-card .value { font-size: 32px; font-weight: 900; }
+  .data-card .note { font-size: 13px; color: #8878A8; margin-top: 6px; }
+
+  /* Screenshot page */
+  .screenshot-page {
+    text-align: center;
+  }
+  .screenshot-page img {
+    max-width: 100%; max-height: 78vh; border-radius: 16px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .screenshot-callouts {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 16px; margin-top: 24px;
+  }
+  .callout {
+    padding: 16px 12px; border-radius: 14px;
+    text-align: center; font-size: 14px;
+  }
+  .callout .callout-label { font-size: 11px; opacity: 0.7; margin-bottom: 4px; }
+  .callout .callout-value { font-size: 22px; font-weight: 900; }
+  .callout.green { background: rgba(165,214,167,0.15); border: 1px solid rgba(165,214,167,0.3); }
+  .callout.red { background: rgba(255,138,128,0.12); border: 1px solid rgba(255,138,128,0.3); }
+  .callout.yellow { background: rgba(255,209,128,0.12); border: 1px solid rgba(255,209,128,0.3); }
+  .callout.blue { background: rgba(129,212,250,0.12); border: 1px solid rgba(129,212,250,0.3); }
+
+  /* Comparison columns (short vs long, cash vs margin) */
+  .compare-cols {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0;
+  }
+  .compare-col {
+    border-radius: 20px; padding: 32px; transition: transform 0.3s;
+  }
+  .compare-col:hover { transform: translateY(-4px); }
+  .compare-col.col-bad {
+    background: rgba(255,138,128,0.06); border: 1px solid rgba(255,138,128,0.2);
+  }
+  .compare-col.col-good {
+    background: rgba(165,214,167,0.06); border: 1px solid rgba(165,214,167,0.25);
+  }
+  .compare-col.col-mid {
+    background: rgba(255,209,128,0.05); border: 1px solid rgba(255,209,128,0.2);
+  }
+  .compare-col.col-wow {
+    background: rgba(206,147,216,0.06); border: 1px solid rgba(206,147,216,0.25);
+  }
+  .compare-col .col-emoji {
+    font-size: 56px; display: block; text-align: center; margin-bottom: 12px;
+  }
+  .compare-col h3 { text-align: center; margin-bottom: 16px; }
+  .compare-col ul { list-style: none; padding: 0; }
+  .compare-col li {
+    padding: 10px 0 10px 24px; position: relative; font-size: 14px;
+    line-height: 1.7; color: #C8BED8;
+  }
+  .compare-col li::before {
+    content: ''; position: absolute; left: 0; top: 16px;
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+  .col-bad li::before { background: #FF8A80; }
+  .col-good li::before { background: #A5D6A7; }
+  .col-mid li::before { background: #FFD180; }
+  .col-wow li::before { background: #CE93D8; }
+
+  /* House contract flow */
+  .contract-flow {
+    display: flex; flex-direction: column; gap: 16px; margin: 32px 0;
+  }
+  .contract-step {
+    display: flex; align-items: center; gap: 24px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px; padding: 24px 32px;
+    transition: transform 0.3s;
+  }
+  .contract-step:hover { transform: scale(1.02); }
+  .contract-step .icon {
+    font-size: 48px; flex-shrink: 0;
+    width: 88px; height: 88px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; background: rgba(255,255,255,0.05);
+  }
+  .contract-step .content { flex: 1; }
+  .contract-step .step-title { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+  .contract-step .step-desc { font-size: 15px; color: #A89CC8; }
+
+  /* ROI comparison bars */
+  .roi-row {
+    display: grid; grid-template-columns: 200px 1fr 140px; gap: 16px;
+    align-items: center; margin: 16px 0;
+  }
+  .roi-label { font-weight: 700; color: #A89CC8; font-size: 16px; }
+  .roi-bar-container {
+    height: 36px; background: rgba(255,255,255,0.04);
+    border-radius: 18px; overflow: hidden; position: relative;
+  }
+  .roi-bar {
+    height: 100%; border-radius: 18px;
+    display: flex; align-items: center; padding: 0 16px;
+    font-weight: 800; font-size: 14px;
+  }
+  .roi-bar.cash {
+    background: linear-gradient(90deg, rgba(165,214,167,0.5), rgba(165,214,167,0.8));
+    color: #fff; width: 18%;
+  }
+  .roi-bar.margin {
+    background: linear-gradient(90deg, rgba(206,147,216,0.5), rgba(206,147,216,1));
+    color: #fff; width: 100%;
+  }
+  .roi-value { font-size: 22px; font-weight: 900; text-align: right; }
+
+  /* Risk cards / scenarios */
+  .scenario-cards { display: flex; flex-direction: column; gap: 20px; margin: 32px 0; }
+  .scenario-card {
+    border-radius: 20px; padding: 28px 32px;
+    display: flex; gap: 24px; align-items: flex-start;
+  }
+  .scenario-card.scen-a {
+    background: rgba(165,214,167,0.06); border: 1px solid rgba(165,214,167,0.25);
+  }
+  .scenario-card.scen-b {
+    background: rgba(129,212,250,0.06); border: 1px solid rgba(129,212,250,0.25);
+  }
+  .scenario-card .scen-emoji {
+    font-size: 56px; flex-shrink: 0;
+    width: 96px; height: 96px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.05); border-radius: 24px;
+  }
+  .scenario-card .scen-content { flex: 1; }
+  .scenario-card.scen-a h3 { color: #A5D6A7; }
+  .scenario-card.scen-b h3 { color: #81D4FA; }
+  .scenario-card p { font-size: 15px; color: #C8BED8; line-height: 1.7; margin-top: 8px; }
+
+  .death-cards { display: flex; gap: 20px; flex-wrap: wrap; margin: 32px 0; }
+  .death-card {
+    flex: 1; min-width: 280px; border-radius: 20px; padding: 32px;
+    background: rgba(255,138,128,0.06); border: 1px solid rgba(255,138,128,0.15);
+    position: relative; transition: transform 0.3s;
+  }
+  .death-card:hover { transform: translateY(-4px); }
+  .death-card .death-emoji { font-size: 48px; margin-bottom: 12px; display: block; }
+  .death-card h3 { color: #FF8A80; font-size: 18px; }
+  .death-card p { font-size: 14px; color: #C8BED8; line-height: 1.7; }
+
+  .summary-list { list-style: none; margin: 24px 0; }
+  .summary-list li {
+    padding: 18px 22px; margin-bottom: 12px; border-radius: 14px;
+    background: rgba(255,255,255,0.04); border-left: 4px solid;
+    font-size: 16px; line-height: 1.6;
+    display: flex; align-items: flex-start; gap: 16px;
+    transition: transform 0.2s;
+  }
+  .summary-list li:hover { transform: translateX(6px); }
+  .summary-list li .li-emoji { font-size: 28px; flex-shrink: 0; }
+  .summary-list li:nth-child(1) { border-color: #FF8A80; }
+  .summary-list li:nth-child(2) { border-color: #A5D6A7; }
+  .summary-list li:nth-child(3) { border-color: #FFD180; }
+  .summary-list li:nth-child(4) { border-color: #CE93D8; }
+  .summary-list li:nth-child(5) { border-color: #81D4FA; }
+
+  .promo-card { text-align: center; max-width: 700px; margin: 0 auto; }
+  .promo-card .promo-emoji { font-size: 72px; display: block; margin-bottom: 12px; }
+  .promo-card h2 {
+    background: linear-gradient(135deg, #CE93D8, #81D4FA);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    justify-content: center;
+  }
+  .promo-card p { font-size: 18px; color: #C8BED8; line-height: 1.8; margin-top: 16px; }
+  .promo-badge {
+    display: inline-block; background: rgba(206,147,216,0.2);
+    border: 1px solid rgba(206,147,216,0.3); border-radius: 40px;
+    padding: 10px 28px; font-size: 16px; font-weight: 700; color: #CE93D8;
+    margin-top: 24px;
+  }
+  .promo-feature {
+    display: inline-block; background: rgba(255,209,128,0.12);
+    border: 1px solid rgba(255,209,128,0.3); border-radius: 12px;
+    padding: 14px 22px; font-size: 15px; color: #FFD180; font-weight: 700;
+    margin-top: 16px;
+  }
+
+  .conclusion-box {
+    margin-top: 32px; padding: 24px; border-radius: 18px;
+    background: rgba(165,214,167,0.06); border: 1px solid rgba(165,214,167,0.2);
+    text-align: center;
+  }
+  .conclusion-box.warn {
+    background: rgba(255,138,128,0.08); border-color: rgba(255,138,128,0.25);
+  }
+  .conclusion-box.peach-bg {
+    background: rgba(255,209,128,0.06); border-color: rgba(255,209,128,0.2);
+  }
+  .conclusion-box.lavender-bg {
+    background: rgba(206,147,216,0.06); border-color: rgba(206,147,216,0.2);
+  }
+  .conclusion-box .conclusion-emoji {
+    font-size: 36px; display: block; margin-bottom: 8px;
+  }
+
+  /* Reinvest cycle */
+  .reinvest-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 32px 0;
+  }
+  .reinvest-card {
+    text-align: center; padding: 28px 20px; border-radius: 20px;
+    background: rgba(165,214,167,0.05); border: 1px solid rgba(165,214,167,0.2);
+    transition: transform 0.3s;
+  }
+  .reinvest-card:hover { transform: translateY(-4px); }
+  .reinvest-card .ri-emoji { font-size: 48px; display: block; margin-bottom: 8px; }
+  .reinvest-card h4 { color: #A5D6A7; font-size: 16px; margin-bottom: 8px; }
+  .reinvest-card p { font-size: 13px; color: #A89CC8; line-height: 1.6; }
+
+  /* Margin warning visual */
+  .margin-bar-container {
+    margin: 32px 0; padding: 24px; border-radius: 16px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  }
+  .margin-bar {
+    height: 60px; background: rgba(255,255,255,0.05);
+    border-radius: 12px; overflow: hidden;
+    display: flex;
+  }
+  .margin-used {
+    width: 30%; background: linear-gradient(90deg, #A5D6A7, #FFD180);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; color: #13101F; font-size: 16px;
+  }
+  .margin-buffer {
+    width: 70%; background: rgba(129,212,250,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: #81D4FA; font-size: 14px;
+  }
+  .margin-labels {
+    display: flex; justify-content: space-between; margin-top: 8px;
+    font-size: 12px; color: #8878A8;
+  }
+</style>
+</head>
+<body>
+
+<div class="float-deco f1">🛋️</div>
+<div class="float-deco f2">💰</div>
+<div class="float-deco f3">⏳</div>
+<div class="float-deco f4">📅</div>
+
+<nav class="side-nav">
+  <a href="#s1">1</a><a href="#s2">2</a><a href="#s3">3</a>
+  <a href="#s4">4</a><a href="#s5">5</a><a href="#s6">6</a>
+  <a href="#s7">7</a><a href="#s8">8</a><a href="#s9">9</a>
+  <a href="#s10">10</a><a href="#s11">11</a><a href="#s12">12</a>
+  <a href="#s13">13</a><a href="#s14">14</a><a href="#s15">15</a>
+</nav>
+
+<!-- Page 1: Title -->
+<section class="section" id="s1">
+  <div class="card" style="text-align:center;">
+    <div style="font-size:80px; margin-bottom:8px;">🛋️💰⏳</div>
+    <h1>养老神技 Sell LEAPS Put</h1>
+    <p class="subtitle" style="justify-content:center;">🪑 一笔操作锁定 8 个月以上现金流 🪑</p>
+    <div class="data-grid" style="max-width:700px; margin:32px auto;">
+      <div class="data-card">
+        <span class="card-emoji">🎯</span>
+        <div class="label">实盘案例标的</div>
+        <div class="value coral">COIN</div>
+      </div>
+      <div class="data-card">
+        <span class="card-emoji">💵</span>
+        <div class="label">权利金一次性落袋</div>
+        <div class="value mint">$3,012.50</div>
+      </div>
+      <div class="data-card">
+        <span class="card-emoji">📈</span>
+        <div class="label">Margin 年化回报</div>
+        <div class="value lavender">263%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 2: Short vs Long Sell Put -->
+<section class="section" id="s2">
+  <div class="card">
+    <h2><span class="h2-emoji">⚖️</span>短期 vs 远期 Sell Put</h2>
+    <p class="subtitle">😩 心累打散工 vs 🛋️ 躺赚养老</p>
+    <div class="compare-cols">
+      <div class="compare-col col-bad">
+        <span class="col-emoji">😩</span>
+        <h3 style="color:#FF8A80;">短期 Sell Put（30-45 天）</h3>
+        <ul>
+          <li>每月开仓 / Roll / 平仓 — 心累</li>
+          <li>大跌时 Breakeven 容易被打穿</li>
+          <li>权利金一次只有几百块，雪球滚得慢</li>
+          <li>没法享受"长期复利"的红利</li>
+        </ul>
+      </div>
+      <div class="compare-col col-good">
+        <span class="col-emoji">🛋️</span>
+        <h3 style="color:#A5D6A7;">远期 Sell Put（260+ 甚至 700+ 天）</h3>
+        <ul>
+          <li>开仓即收几千美金，<strong>一次性落袋</strong></li>
+          <li>8 个月、1 年、甚至 2 年内 <strong>不用管</strong></li>
+          <li>Breakeven 比现价低 25%-35%，<strong>安全垫极厚</strong></li>
+          <li>权利金立刻可用 — 加速复利雪球</li>
+        </ul>
+      </div>
+    </div>
+    <div class="conclusion-box">
+      <span class="conclusion-emoji">⏳</span>
+      <p style="font-size:18px; color:#A5D6A7; font-weight:800;">
+        从"每月打散工"升级到"一次签下两年长期租约"
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 3: 房产类比 -->
+<section class="section" id="s3">
+  <div class="card">
+    <h2><span class="h2-emoji">🏢</span>房产类比 — 8 个月接盘合同</h2>
+    <p class="subtitle">📜 COIN 是热门写字楼，今天 $181 / 平</p>
+    <div class="contract-flow">
+      <div class="contract-step">
+        <div class="icon">📜</div>
+        <div class="content">
+          <div class="step-title peach">签下接盘合同</div>
+          <div class="step-desc">"未来 261 天，如果楼价跌到 $160 以下，我按 $160 接手"</div>
+        </div>
+      </div>
+      <div class="contract-step" style="border-color:rgba(165,214,167,0.3); background:rgba(165,214,167,0.05);">
+        <div class="icon">💰</div>
+        <div class="content">
+          <div class="step-title mint">当场收到订金（一次性）</div>
+          <div class="step-desc">$30 / 平 × 100 = <strong>$3,000 立刻进口袋</strong>，无论 261 天后是否真的接盘</div>
+        </div>
+      </div>
+      <div class="contract-step">
+        <div class="icon">🛡️</div>
+        <div class="content">
+          <div class="step-title sky">真实接盘成本：$130 / 平</div>
+          <div class="step-desc">$160 - $30 订金 = $130 — <strong>跌破 $129.88 才开始亏钱（29% 安全垫）</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 4: COIN Screenshot -->
+<section class="section" id="s4">
+  <div class="card screenshot-page">
+    <h2 style="justify-content:center;"><span class="h2-emoji">📸</span>COIN OptionStrat 实盘截图</h2>
+    <img src="../screenshots/COIN_SHORT_PUT.png" alt="COIN Short Put OptionStrat">
+    <div class="screenshot-callouts">
+      <div class="callout green">
+        <div class="callout-label">💰 NET CREDIT</div>
+        <div class="callout-value mint">$3,012.50</div>
+      </div>
+      <div class="callout red">
+        <div class="callout-label">⚠️ MAX LOSS</div>
+        <div class="callout-value coral">$12,987.50</div>
+      </div>
+      <div class="callout yellow">
+        <div class="callout-label">🎯 BREAKEVEN</div>
+        <div class="callout-value peach">$129.88</div>
+      </div>
+      <div class="callout blue">
+        <div class="callout-label">📊 EST. MARGIN</div>
+        <div class="callout-value sky">$1,600</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 5: COIN Data Cards -->
+<section class="section" id="s5">
+  <div class="card">
+    <h2><span class="h2-emoji">📋</span>COIN 实盘开仓数据</h2>
+    <p class="subtitle">📅 261 天到期 · IV 75% · 高波动状态最佳入场</p>
+    <div class="data-grid">
+      <div class="data-card">
+        <span class="card-emoji">📍</span>
+        <div class="label">COIN 现价</div>
+        <div class="value coral">$181.73</div>
+        <div class="note">今日 -6.37%</div>
+      </div>
+      <div class="data-card">
+        <span class="card-emoji">🎯</span>
+        <div class="label">行权价</div>
+        <div class="value peach">$160</div>
+        <div class="note">Sell Put</div>
+      </div>
+      <div class="data-card">
+        <span class="card-emoji">📅</span>
+        <div class="label">到期日</div>
+        <div class="value sky">Jan 15</div>
+        <div class="note">2027（261 天）</div>
+      </div>
+      <div class="data-card">
+        <span class="card-emoji">🌊</span>
+        <div class="label">隐含波动率</div>
+        <div class="value lavender">75%</div>
+        <div class="note">权利金最贵</div>
+      </div>
+      <div class="data-card" style="border:2px solid rgba(165,214,167,0.5);">
+        <span class="card-emoji">💰</span>
+        <div class="label" style="color:#A5D6A7;">净 Credit（最大利润）</div>
+        <div class="value mint">$3,012.50</div>
+        <div class="note">$30.125 × 100</div>
+      </div>
+      <div class="data-card" style="border:2px solid rgba(255,209,128,0.5);">
+        <span class="card-emoji">🛡️</span>
+        <div class="label" style="color:#FFD180;">Breakeven</div>
+        <div class="value peach">$129.88</div>
+        <div class="note">$160 - $30.125</div>
+      </div>
+      <div class="data-card" style="border:2px solid rgba(255,138,128,0.5);">
+        <span class="card-emoji">⚠️</span>
+        <div class="label" style="color:#FF8A80;">最大亏损</div>
+        <div class="value coral">$12,987.50</div>
+        <div class="note">理论上 COIN→$0</div>
+      </div>
+      <div class="data-card" style="border:2px solid rgba(206,147,216,0.5);">
+        <span class="card-emoji">📏</span>
+        <div class="label" style="color:#CE93D8;">安全垫</div>
+        <div class="value lavender">29%</div>
+        <div class="note">现价到 Breakeven</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 6: Entry Timing Filter -->
+<section class="section" id="s6">
+  <div class="card">
+    <h2><span class="h2-emoji">🎯</span>入场标的双重筛选</h2>
+    <p class="subtitle">💎 好公司 + 大跌 + 高 IV = 黄金入场时刻</p>
+    <div class="compare-cols">
+      <div class="compare-col col-good">
+        <span class="col-emoji">💎</span>
+        <h3 style="color:#A5D6A7;">铁律一：基本面好的公司</h3>
+        <ul>
+          <li>长期看好、愿意真金白银持有的资产</li>
+          <li>有护城河、商业模式清晰、财务健康</li>
+          <li>COIN = 美国合规加密交易所龙头</li>
+          <li><strong>垃圾股做远期 Sell Put = 自杀</strong></li>
+        </ul>
+      </div>
+      <div class="compare-col col-wow">
+        <span class="col-emoji">🌊</span>
+        <h3 style="color:#CE93D8;">铁律二：回调中 + 高波动</h3>
+        <ul>
+          <li>从高点回调 20-30%</li>
+          <li>IV 飙到历史相对高位</li>
+          <li>COIN 单日跌 6.37%、IV 75% — 教科书级</li>
+          <li>IV 越高 = 权利金越贵 = 收得越多</li>
+        </ul>
+      </div>
+    </div>
+    <div class="conclusion-box warn">
+      <span class="conclusion-emoji">🚫</span>
+      <p style="color:#FF8A80; font-weight:800; font-size:16px;">
+        市场风平浪静、IV &lt; 30% 时不要凑热闹 — 权利金太薄不值得锁定 8 个月
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 7: Cash vs Margin ROI -->
+<section class="section" id="s7">
+  <div class="card">
+    <h2><span class="h2-emoji">📈</span>现金担保 vs Margin 回报</h2>
+    <p class="subtitle">💥 同一笔操作，回报相差近 10 倍</p>
+    <div class="compare-cols">
+      <div class="compare-col col-mid">
+        <span class="col-emoji">💵</span>
+        <h3 style="color:#FFD180;">方式一：现金担保</h3>
+        <div style="text-align:center; padding:20px 0;">
+          <div style="font-size:13px; color:#A89CC8;">冻结现金</div>
+          <div style="font-size:32px; font-weight:900; color:#FFD180; margin:8px 0;">$16,000</div>
+          <div style="font-size:13px; color:#A89CC8; margin-top:16px;">261 天回报率</div>
+          <div style="font-size:36px; font-weight:900; color:#A5D6A7;">18.83%</div>
+          <div style="font-size:18px; color:#A5D6A7; font-weight:800; margin-top:8px;">年化 ~26.3%</div>
+        </div>
+      </div>
+      <div class="compare-col col-wow">
+        <span class="col-emoji">🚀</span>
+        <h3 style="color:#CE93D8;">方式二：使用 Margin</h3>
+        <div style="text-align:center; padding:20px 0;">
+          <div style="font-size:13px; color:#A89CC8;">占用购买力</div>
+          <div style="font-size:32px; font-weight:900; color:#CE93D8; margin:8px 0;">$1,600</div>
+          <div style="font-size:13px; color:#A89CC8; margin-top:16px;">261 天回报率</div>
+          <div style="font-size:36px; font-weight:900; color:#FFD180;">188.28%</div>
+          <div style="font-size:18px; color:#FFD180; font-weight:800; margin-top:8px;">年化 ~263%</div>
+        </div>
+      </div>
+    </div>
+    <div class="roi-row">
+      <div class="roi-label">🐢 现金 26.3%</div>
+      <div class="roi-bar-container"><div class="roi-bar cash">26.3% 年化</div></div>
+      <div class="roi-value mint">26.3%</div>
+    </div>
+    <div class="roi-row">
+      <div class="roi-label">🚀 Margin 263%</div>
+      <div class="roi-bar-container"><div class="roi-bar margin">263% 年化（10 倍杠杆）</div></div>
+      <div class="roi-value lavender">263%</div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 8: Margin no interest mechanism -->
+<section class="section" id="s8">
+  <div class="card">
+    <h2><span class="h2-emoji">💡</span>Margin 不付利息？真的！</h2>
+    <p class="subtitle">🤯 用 Margin Sell Put，只要不行权，一分钱利息不付</p>
+    <div class="contract-flow">
+      <div class="contract-step" style="border-color:rgba(165,214,167,0.3); background:rgba(165,214,167,0.05);">
+        <div class="icon">🔒</div>
+        <div class="content">
+          <div class="step-title mint">Margin = 占用购买力，不是借钱</div>
+          <div class="step-desc">你<strong>没有</strong>实际从券商借出现金，账户<strong>没有</strong>负余额（Debit Balance）</div>
+        </div>
+      </div>
+      <div class="contract-step" style="border-color:rgba(129,212,250,0.3); background:rgba(129,212,250,0.05);">
+        <div class="icon">⚙️</div>
+        <div class="content">
+          <div class="step-title sky">利息触发条件</div>
+          <div class="step-desc">券商<strong>只在你账户真的有 Debit 余额</strong>的时候才收利息</div>
+        </div>
+      </div>
+      <div class="contract-step" style="border-color:rgba(255,138,128,0.3); background:rgba(255,138,128,0.05);">
+        <div class="icon">⚠️</div>
+        <div class="content">
+          <div class="step-title coral">什么时候才付息？</div>
+          <div class="step-desc">只有真的被行权、用 Margin 接盘、账户出现 Debit 余额时 — 那时才开始付息</div>
+        </div>
+      </div>
+    </div>
+    <div class="conclusion-box lavender-bg">
+      <span class="conclusion-emoji">🎁</span>
+      <p style="color:#CE93D8; font-weight:800; font-size:18px;">
+        老手玩法：用 0 成本撬动 10 倍杠杆的神器
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 9: Margin 30% Rule -->
+<section class="section" id="s9">
+  <div class="card">
+    <h2><span class="h2-emoji">🚨</span>Margin 30% 铁律</h2>
+    <p class="subtitle">💣 263% 回报背后藏着的"爆仓核弹"</p>
+    <div class="margin-bar-container">
+      <div class="margin-bar">
+        <div class="margin-used">🚀 用 30%</div>
+        <div class="margin-buffer">🛡️ 留 70% 缓冲</div>
+      </div>
+      <div class="margin-labels">
+        <span>0%</span>
+        <span style="color:#FFD180; font-weight:800;">30% 红线</span>
+        <span>100%</span>
+      </div>
+    </div>
+    <div class="death-cards">
+      <div class="death-card">
+        <span class="death-emoji">💥</span>
+        <h3>不留缓冲的下场</h3>
+        <p>10 万账户全押 Margin，遇到一次黑天鹅（2020/2008）所有标的同时跳空 20-30% — 触发 Margin Call、被强制砍仓、几年利润一次归零。</p>
+      </div>
+      <div class="death-card" style="background: rgba(165,214,167,0.06); border-color: rgba(165,214,167,0.2);">
+        <span class="death-emoji">🛡️</span>
+        <h3 style="color:#A5D6A7;">安全使用四原则</h3>
+        <p style="color:#C8BED8;">
+          ① Margin 占用 ≤ 总账户 30%<br>
+          ② 留 70% 缓冲应对极端行情<br>
+          ③ 分散到 5-10 笔不同行业<br>
+          ④ 同标的不叠加多张 Sell Put
+        </p>
+      </div>
+    </div>
+    <div class="conclusion-box">
+      <span class="conclusion-emoji">🧠</span>
+      <p style="color:#A5D6A7; font-weight:800; font-size:17px;">
+        远期 Sell Put 的优势是"时间复利"，不是"杠杆赌博"
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 10: Premium Reinvest -->
+<section class="section" id="s10">
+  <div class="card">
+    <h2><span class="h2-emoji">🔁</span>$3,012 落袋后能干什么？</h2>
+    <p class="subtitle">💸 权利金一次性进账 — 立刻可用做新现金流</p>
+    <div class="reinvest-grid">
+      <div class="reinvest-card">
+        <span class="ri-emoji">📊</span>
+        <h4>定投 QQQ / VOO</h4>
+        <p>把现金流注入长期复利账户</p>
+      </div>
+      <div class="reinvest-card">
+        <span class="ri-emoji">🪙</span>
+        <h4>开新 Sell Put</h4>
+        <p>在另一只优质标的叠加新现金流</p>
+      </div>
+      <div class="reinvest-card">
+        <span class="ri-emoji">🚀</span>
+        <h4>买 LEAPS Call</h4>
+        <p>用权利金搭建上行收益的免费杠杆</p>
+      </div>
+    </div>
+    <div class="conclusion-box peach-bg">
+      <span class="conclusion-emoji">⚡</span>
+      <p style="color:#FFD180; font-weight:800; font-size:17px;">
+        "开仓即攒到 8 个月的钱" — 复利雪球加速器
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 11: Two scenarios for downside -->
+<section class="section" id="s11">
+  <div class="card">
+    <h2><span class="h2-emoji">⚙️</span>COIN 继续跌怎么办？</h2>
+    <p class="subtitle">📉 两套方案根据你对标的的判断来选</p>
+    <div class="scenario-cards">
+      <div class="scenario-card scen-a">
+        <div class="scen-emoji">🎁</div>
+        <div class="scen-content">
+          <h3>方案 A：长期看涨 → 接盘启动轮子策略</h3>
+          <p>
+            ① 接受行权：以 $160 买入 100 股 COIN<br>
+            ② 真实成本基础：<strong>$160 - $30.125 = $129.88 / 股</strong>（已扣除最初权利金）<br>
+            ③ 启动轮子：开始 Sell Covered Call 月月收租<br>
+            ④ <strong>防御性 Covered Call：行权价必须 &gt; $129.88</strong>
+          </p>
+        </div>
+      </div>
+      <div class="scenario-card scen-b">
+        <div class="scen-emoji">🔄</div>
+        <div class="scen-content">
+          <h3>方案 B：不想接盘 → 向下 Roll</h3>
+          <p>
+            ① Roll Down and Out：买回旧 $160 Put + 卖出更远期 + 更低行权价的新 Put<br>
+            ② 收的新权利金 ≥ 平掉旧仓成本 = <strong>Net Credit 或 No Cost</strong><br>
+            ③ 不掏一分钱 — 行权价压低、到期日延长、继续买时间<br>
+            ④ <strong>前提：基本面没坏。基本面崩了 = 立刻平仓止损</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 12: Three risks -->
+<section class="section" id="s12">
+  <div class="card">
+    <h2><span class="h2-emoji">⚠️</span>三大风险</h2>
+    <div class="death-cards">
+      <div class="death-card">
+        <span class="death-emoji">🪤</span>
+        <h3>风险一：标的选错</h3>
+        <p>财务造假、行业被颠覆、CEO 出事 — 261 天里从 $180 跌到 $50，Breakeven $130 直接被打穿。<strong>只做长期愿持有的优质资产。</strong></p>
+      </div>
+      <div class="death-card">
+        <span class="death-emoji">💣</span>
+        <h3>风险二：Margin 用过头</h3>
+        <p>使用率超过 30% = 爆仓核弹。<strong>留 70% 缓冲应对极端行情</strong> — 牛市看似浪费，熊市能救你的整个账户。</p>
+      </div>
+      <div class="death-card">
+        <span class="death-emoji">🦢</span>
+        <h3>风险三：黑天鹅</h3>
+        <p>监管突袭、地缘冲突、加密暴雷不可预知。<strong>单笔 ≤ 总账户 5%</strong>，分散 5-10 笔不同行业，避免单点拖垮全局。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 13: VIP Discord -->
+<section class="section" id="s13">
+  <div class="card">
+    <div class="promo-card">
+      <span class="promo-emoji">💬✨</span>
+      <h2>VIP Discord 社区</h2>
+      <p>📺 视频拍摄剪辑有滞后性 — COIN 这种入场点等你看到时可能已反弹</p>
+      <div class="promo-feature">
+        🎁 我每周给群里推送几个适合 Sell Put 的优质标的<br>
+        📊 基本面分析 + 行权价建议 + 入场时机
+      </div>
+      <p style="margin-top:24px;">🚀 见证百万之路 · 👥 300 名付费用户在交流</p>
+      <div class="promo-badge">🔗 链接在视频描述和置顶评论</div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 14: Summary -->
+<section class="section" id="s14">
+  <div class="card">
+    <h2><span class="h2-emoji">📝</span>核心要点</h2>
+    <ul class="summary-list">
+      <li><span class="li-emoji">🛋️</span><div><strong>养老神技本质</strong> 远期 Sell Put（8 个月以上），权利金一次性落袋，开仓后躺赚到期</div></li>
+      <li><span class="li-emoji">📋</span><div><strong>COIN 实盘</strong> 净 Credit $3,012.50 / Breakeven $129.88（29% 安全垫）/ 现金年化 26% / Margin 年化 263%</div></li>
+      <li><span class="li-emoji">🎯</span><div><strong>入场时机</strong> 基本面好的公司 + 大幅回调 + 高 IV，三者缺一不可</div></li>
+      <li><span class="li-emoji">🛡️</span><div><strong>Margin 铁律</strong> 使用率 ≤ 30%，分散 5-10 笔不同行业，留 70% 缓冲</div></li>
+      <li><span class="li-emoji">⚙️</span><div><strong>下跌处理</strong> 长期看涨 → 接盘启动轮子 / 不想接盘 → 向下 Roll 买时间</div></li>
+    </ul>
+    <div class="conclusion-box peach-bg">
+      <span class="conclusion-emoji">💎</span>
+      <p style="color:#FFD180; font-size:20px; font-weight:800; line-height:1.6;">
+        真正的复利人生<br>不是每天盯盘交易，而是用一个动作锁定一年的现金流
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 15: Next episode -->
+<section class="section" id="s15">
+  <div class="card">
+    <div class="promo-card">
+      <span class="promo-emoji">📺✨</span>
+      <h2 style="background: linear-gradient(135deg, #FFD180, #FF8A80); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">下期预告</h2>
+      <p style="font-size:26px; color:#FFD180; font-weight:800; margin-top:16px;">
+        🏗️ 仓位管理系统
+      </p>
+      <p style="font-size:16px; color:#A89CC8; margin-top:12px; line-height:1.9;">
+        🎯 年龄+20% 法则<br>📊 期权三层分配<br>🔁 现金流复利闭环
+      </p>
+      <p style="font-size:14px; color:#8878A8; margin-top:16px;">
+        没有这套系统，学再多策略都是散兵游勇
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.side-nav a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const id = entry.target.id;
+      const link = document.querySelector(`.side-nav a[href="#${id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

@@ -26,6 +26,7 @@
 - 轮子策略：轮子策略 The Wheel — 期权卖方终极闭环，TQQQ $60 假设数据教学，Sell Put → 接股 → Covered Call → 循环
 - 日历价差：Calendar Spread — 横盘高波动市场的时间套利策略，TQQQ $60 假设教学，Sell 30天 + Buy 90天 同行权价
 - 财报季 IV：财报季 IV Crush 完整玩法 — NVDA $130 假设教学，Iron Condor 财报前开仓吃 IV Crush，三种参与方式
+- 养老神技：Sell LEAPS Put（远期 Sell Put）— COIN 实盘 $160 Put 261天案例，$3,012 一次性落袋，年化 26%（现金）/263%（Margin），Margin 30% 铁律
 
 ---
 
@@ -35,8 +36,8 @@
 - [x] **Roll 展期详解** — 已完成
 - [x] **Calendar Spread** — 已完成
 - [~] ~~Diagonal Spread~~ — 本质就是 PMCC（第43期已讲），已废弃
-- [ ] **养老神技 Sell LEAPS Put** — 远期 Sell Put（700+天），一笔操作锁定 1-2 年现金流，年化 15%+。Calendar 结尾已预告，下期优先
-- [ ] **仓位管理系统** — 多期权同时管理时的仓位分配
+- [x] **养老神技 Sell LEAPS Put** — 已完成（COIN $160 Put 261天实盘案例）
+- [ ] **仓位管理系统** — 多期权同时管理时的仓位分配（养老神技结尾已预告，下期优先）
 
 ### 市场热点相关
 - [ ] **高波动率市场下的期权策略** — VIX高企时如何操作
