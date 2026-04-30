@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投资是最好的副业 — B-Roll</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Nunito', "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+    background: #13101F;
+    color: #E8E4F0;
+    overflow-x: hidden;
+  }
+
+  .float-deco {
+    position: fixed; pointer-events: none; z-index: 0;
+    opacity: 0.06; font-size: 80px;
+    animation: float 8s ease-in-out infinite;
+  }
+  .float-deco.f1 { top: 10%; left: 5%; animation-delay: 0s; }
+  .float-deco.f2 { top: 60%; left: 8%; animation-delay: 2s; }
+  .float-deco.f3 { top: 30%; right: 8%; animation-delay: 4s; }
+  .float-deco.f4 { top: 80%; right: 5%; animation-delay: 6s; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+  }
+
+  .side-nav {
+    position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 10px; z-index: 100;
+  }
+  .side-nav a {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: #A89CC8; font-size: 12px; font-weight: 700;
+    text-decoration: none; transition: all 0.3s;
+  }
+  .side-nav a:hover, .side-nav a.active {
+    background: rgba(255,138,128,0.25); border-color: #FF8A80;
+    color: #fff; box-shadow: 0 0 16px rgba(255,138,128,0.4);
+    transform: scale(1.15);
+  }
+
+  .section {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 60px 80px; position: relative; z-index: 1;
+  }
+  .section:nth-child(even) { background: rgba(255,255,255,0.02); }
+  .card {
+    max-width: 1100px; width: 100%; border-radius: 24px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    padding: 56px 64px; backdrop-filter: blur(12px);
+    position: relative;
+  }
+  .card::before {
+    content: '✨'; position: absolute; top: 16px; right: 24px;
+    font-size: 28px; opacity: 0.4;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.2); }
+  }
+
+  h1 {
+    font-size: 52px; font-weight: 900; margin-bottom: 12px;
+    background: linear-gradient(135deg, #FF8A80, #FFD180, #A5D6A7, #81D4FA, #CE93D8);
+    background-size: 200% 200%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    animation: gradient-flow 6s ease infinite;
+  }
+  @keyframes gradient-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  h2 {
+    font-size: 36px; font-weight: 800; margin-bottom: 24px; color: #E0D6F0;
+    display: flex; align-items: center; gap: 14px;
+  }
+  h2 .h2-emoji { font-size: 44px; }
+  h3 { font-size: 22px; font-weight: 700; margin-bottom: 16px; color: #CE93D8; }
+  .subtitle {
+    font-size: 20px; color: #A89CC8; margin-bottom: 40px; font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .coral { color: #FF8A80; }
+  .mint { color: #A5D6A7; }
+  .lavender { color: #CE93D8; }
+  .peach { color: #FFD180; }
+  .sky { color: #81D4FA; }
+
+  /* Inflation bar chart */
+  .inflation-chart {
+    margin: 32px 0; padding: 32px; border-radius: 20px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  }
+  .inflation-bar-row {
+    display: grid; grid-template-columns: 80px 1fr 120px;
+    align-items: center; gap: 16px; margin: 14px 0;
+  }
+  .inflation-time { font-size: 16px; font-weight: 700; color: #A89CC8; }
+  .inflation-bar-container {
+    height: 36px; background: rgba(255,255,255,0.05);
+    border-radius: 18px; overflow: hidden;
+  }
+  .inflation-bar {
+    height: 100%; border-radius: 18px;
+    display: flex; align-items: center; padding: 0 16px;
+    font-weight: 800; font-size: 14px; color: #fff;
+  }
+  .inflation-bar.now { width: 100%; background: linear-gradient(90deg, rgba(165,214,167,0.6), rgba(165,214,167,1)); }
+  .inflation-bar.y5 { width: 84%; background: linear-gradient(90deg, rgba(255,209,128,0.6), rgba(255,209,128,1)); }
+  .inflation-bar.y10 { width: 70%; background: linear-gradient(90deg, rgba(255,209,128,0.5), rgba(255,138,128,0.8)); }
+  .inflation-bar.y15 { width: 58%; background: linear-gradient(90deg, rgba(255,138,128,0.6), rgba(255,138,128,0.9)); }
+  .inflation-bar.y20 { width: 49%; background: linear-gradient(90deg, rgba(255,138,128,0.7), rgba(255,138,128,1)); }
+  .inflation-value { font-size: 22px; font-weight: 900; text-align: right; }
+
+  /* Compare cols */
+  .compare-cols {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0;
+  }
+  .compare-col { border-radius: 20px; padding: 32px; transition: transform 0.3s; }
+  .compare-col:hover { transform: translateY(-4px); }
+  .compare-col.col-bad { background: rgba(255,138,128,0.06); border: 1px solid rgba(255,138,128,0.2); }
+  .compare-col.col-good { background: rgba(165,214,167,0.06); border: 1px solid rgba(165,214,167,0.25); }
+  .compare-col.col-mid { background: rgba(255,209,128,0.05); border: 1px solid rgba(255,209,128,0.2); }
+  .compare-col.col-wow { background: rgba(206,147,216,0.06); border: 1px solid rgba(206,147,216,0.25); }
+  .compare-col .col-emoji { font-size: 56px; display: block; text-align: center; margin-bottom: 12px; }
+  .compare-col h3 { text-align: center; margin-bottom: 16px; }
+  .compare-col ul { list-style: none; padding: 0; }
+  .compare-col li {
+    padding: 10px 0 10px 24px; position: relative; font-size: 14px;
+    line-height: 1.7; color: #C8BED8;
+  }
+  .compare-col li::before {
+    content: ''; position: absolute; left: 0; top: 16px;
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+  .col-bad li::before { background: #FF8A80; }
+  .col-good li::before { background: #A5D6A7; }
+  .col-mid li::before { background: #FFD180; }
+  .col-wow li::before { background: #CE93D8; }
+
+  /* 9-grid for entrepreneurship pains */
+  .pain-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 32px 0;
+  }
+  .pain-cell {
+    text-align: center; padding: 20px 12px; border-radius: 16px;
+    background: rgba(255,138,128,0.06); border: 1px solid rgba(255,138,128,0.2);
+    transition: transform 0.3s;
+  }
+  .pain-cell:hover { transform: translateY(-3px); }
+  .pain-cell .pain-emoji { font-size: 36px; display: block; margin-bottom: 6px; }
+  .pain-cell .pain-name { font-size: 14px; font-weight: 700; color: #FF8A80; }
+  .pain-cell .pain-desc { font-size: 11px; color: #A89CC8; margin-top: 4px; }
+
+  /* Dual engine for job + investing */
+  .dual-engine {
+    display: grid; grid-template-columns: 1fr 80px 1fr; gap: 16px;
+    align-items: center; margin: 32px 0;
+  }
+  .engine-side {
+    text-align: center; padding: 32px 24px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.03);
+  }
+  .engine-side.left { border-color: rgba(255,209,128,0.3); background: rgba(255,209,128,0.05); }
+  .engine-side.right { border-color: rgba(165,214,167,0.3); background: rgba(165,214,167,0.05); }
+  .engine-side .engine-emoji { font-size: 56px; display: block; margin-bottom: 8px; }
+  .engine-side h3 { color: #E0D6F0; margin-bottom: 8px; }
+  .engine-side p { font-size: 14px; color: #A89CC8; line-height: 1.6; }
+  .engine-plus {
+    text-align: center; font-size: 56px; font-weight: 900;
+    color: #FF8A80;
+  }
+
+  /* Quote cards */
+  .quote-card {
+    border-radius: 20px; padding: 36px;
+    background: rgba(206,147,216,0.06); border: 1px solid rgba(206,147,216,0.25);
+    text-align: center; margin: 20px 0;
+  }
+  .quote-card .quote-emoji {
+    font-size: 48px; display: block; margin-bottom: 12px;
+  }
+  .quote-card .quote-text {
+    font-size: 22px; font-weight: 800; color: #E0D6F0;
+    line-height: 1.7;
+  }
+  .quote-card .quote-after {
+    font-size: 14px; color: #A89CC8; margin-top: 14px; line-height: 1.7;
+  }
+
+  /* Sunday vs Monday */
+  .day-compare {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 32px 0;
+  }
+  .day-card {
+    border-radius: 20px; padding: 32px; text-align: center;
+  }
+  .day-card.before {
+    background: rgba(255,138,128,0.06); border: 1px solid rgba(255,138,128,0.2);
+  }
+  .day-card.after {
+    background: rgba(165,214,167,0.08); border: 1px solid rgba(165,214,167,0.3);
+  }
+  .day-card .day-emoji { font-size: 80px; display: block; margin-bottom: 8px; }
+  .day-card .day-label { font-size: 14px; color: #A89CC8; margin-bottom: 12px; font-weight: 700; }
+  .day-card.before h3 { color: #FF8A80; }
+  .day-card.after h3 { color: #A5D6A7; }
+  .day-card p { font-size: 14px; color: #C8BED8; line-height: 1.7; margin-top: 12px; }
+
+  /* 4-layer position system */
+  .position-system {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 32px 0;
+  }
+  .position-layer {
+    border-radius: 20px; padding: 28px;
+    transition: transform 0.3s;
+  }
+  .position-layer:hover { transform: translateY(-4px); }
+  .position-layer.l1 {
+    background: rgba(129,212,250,0.06); border: 1px solid rgba(129,212,250,0.3);
+  }
+  .position-layer.l2 {
+    background: rgba(165,214,167,0.06); border: 1px solid rgba(165,214,167,0.3);
+  }
+  .position-layer.l3 {
+    background: rgba(255,209,128,0.06); border: 1px solid rgba(255,209,128,0.3);
+  }
+  .position-layer.l4 {
+    background: rgba(206,147,216,0.06); border: 1px solid rgba(206,147,216,0.3);
+  }
+  .position-layer .layer-head {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 12px;
+  }
+  .position-layer .layer-emoji { font-size: 40px; }
+  .position-layer .layer-num {
+    font-size: 13px; font-weight: 700; opacity: 0.7;
+  }
+  .position-layer.l1 h3 { color: #81D4FA; margin: 0; font-size: 18px; }
+  .position-layer.l2 h3 { color: #A5D6A7; margin: 0; font-size: 18px; }
+  .position-layer.l3 h3 { color: #FFD180; margin: 0; font-size: 18px; }
+  .position-layer.l4 h3 { color: #CE93D8; margin: 0; font-size: 18px; }
+  .position-layer p { font-size: 14px; color: #C8BED8; line-height: 1.7; }
+  .position-layer .layer-role {
+    margin-top: 10px; padding: 8px 12px; border-radius: 10px;
+    background: rgba(255,255,255,0.04); font-size: 12px; color: #A89CC8;
+  }
+
+  /* MOOMOO step list */
+  .step-list {
+    display: flex; flex-direction: column; gap: 14px; margin: 24px 0;
+  }
+  .moomoo-step {
+    display: flex; gap: 20px; align-items: flex-start;
+    background: rgba(255,209,128,0.05); border: 1px solid rgba(255,209,128,0.2);
+    border-radius: 16px; padding: 20px 24px;
+  }
+  .moomoo-step .step-num-circle {
+    flex-shrink: 0; width: 48px; height: 48px;
+    border-radius: 50%; background: rgba(255,209,128,0.2);
+    color: #FFD180; font-weight: 900; font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .moomoo-step .step-body { flex: 1; }
+  .moomoo-step h4 { color: #FFD180; font-size: 17px; margin-bottom: 4px; }
+  .moomoo-step p { font-size: 14px; color: #C8BED8; line-height: 1.6; }
+
+  /* Summary list */
+  .summary-list { list-style: none; margin: 24px 0; }
+  .summary-list li {
+    padding: 18px 22px; margin-bottom: 12px; border-radius: 14px;
+    background: rgba(255,255,255,0.04); border-left: 4px solid;
+    font-size: 15px; line-height: 1.6;
+    display: flex; align-items: flex-start; gap: 16px;
+    transition: transform 0.2s;
+  }
+  .summary-list li:hover { transform: translateX(6px); }
+  .summary-list li .li-emoji { font-size: 28px; flex-shrink: 0; }
+  .summary-list li:nth-child(1) { border-color: #FF8A80; }
+  .summary-list li:nth-child(2) { border-color: #FFD180; }
+  .summary-list li:nth-child(3) { border-color: #A5D6A7; }
+  .summary-list li:nth-child(4) { border-color: #CE93D8; }
+  .summary-list li:nth-child(5) { border-color: #81D4FA; }
+
+  .promo-card { text-align: center; max-width: 700px; margin: 0 auto; }
+  .promo-card .promo-emoji { font-size: 72px; display: block; margin-bottom: 12px; }
+  .promo-card h2 {
+    background: linear-gradient(135deg, #CE93D8, #81D4FA);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    justify-content: center;
+  }
+  .promo-card p { font-size: 18px; color: #C8BED8; line-height: 1.8; margin-top: 16px; }
+  .promo-badge {
+    display: inline-block; background: rgba(206,147,216,0.2);
+    border: 1px solid rgba(206,147,216,0.3); border-radius: 40px;
+    padding: 10px 28px; font-size: 16px; font-weight: 700; color: #CE93D8;
+    margin-top: 24px;
+  }
+  .promo-feature {
+    display: inline-block; background: rgba(255,209,128,0.12);
+    border: 1px solid rgba(255,209,128,0.3); border-radius: 12px;
+    padding: 14px 22px; font-size: 15px; color: #FFD180; font-weight: 700;
+    margin-top: 16px;
+  }
+
+  .conclusion-box {
+    margin-top: 32px; padding: 24px; border-radius: 18px;
+    background: rgba(165,214,167,0.06); border: 1px solid rgba(165,214,167,0.2);
+    text-align: center;
+  }
+  .conclusion-box.warn { background: rgba(255,138,128,0.08); border-color: rgba(255,138,128,0.25); }
+  .conclusion-box.peach-bg { background: rgba(255,209,128,0.06); border-color: rgba(255,209,128,0.2); }
+  .conclusion-box.lavender-bg { background: rgba(206,147,216,0.06); border-color: rgba(206,147,216,0.2); }
+  .conclusion-box.sky-bg { background: rgba(129,212,250,0.06); border-color: rgba(129,212,250,0.2); }
+  .conclusion-box .conclusion-emoji { font-size: 36px; display: block; margin-bottom: 8px; }
+
+  /* Cash engine flow */
+  .flow-row {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; margin: 16px 0; flex-wrap: wrap;
+  }
+  .flow-pill {
+    padding: 10px 18px; border-radius: 30px;
+    font-size: 14px; font-weight: 700;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  }
+  .flow-arrow { font-size: 22px; color: #FF8A80; font-weight: 900; }
+
+  /* Lifestyle freedom */
+  .freedom-icons {
+    display: flex; justify-content: center; gap: 28px; margin: 32px 0;
+    font-size: 64px;
+  }
+  .freedom-icons span { animation: float 6s ease-in-out infinite; }
+  .freedom-icons span:nth-child(2) { animation-delay: 1.5s; }
+  .freedom-icons span:nth-child(3) { animation-delay: 3s; }
+  .freedom-icons span:nth-child(4) { animation-delay: 4.5s; }
+</style>
+</head>
+<body>
+
+<div class="float-deco f1">💼</div>
+<div class="float-deco f2">📈</div>
+<div class="float-deco f3">🏖️</div>
+<div class="float-deco f4">💰</div>
+
+<nav class="side-nav">
+  <a href="#s1">1</a><a href="#s2">2</a><a href="#s3">3</a>
+  <a href="#s4">4</a><a href="#s5">5</a><a href="#s6">6</a>
+  <a href="#s7">7</a><a href="#s8">8</a><a href="#s9">9</a>
+  <a href="#s10">10</a><a href="#s11">11</a><a href="#s12">12</a>
+  <a href="#s13">13</a><a href="#s14">14</a>
+</nav>
+
+<!-- Page 1: Title -->
+<section class="section" id="s1">
+  <div class="card" style="text-align:center;">
+    <div style="font-size:80px; margin-bottom:8px;">💼➕📈🟰🏖️</div>
+    <h1>投资才是最好的副业</h1>
+    <p class="subtitle" style="justify-content:center;">🌸 上班+投资 = 普通人的财富密码 🌸</p>
+    <div class="quote-card" style="max-width:780px; margin:32px auto 0;">
+      <span class="quote-emoji">💎</span>
+      <p class="quote-text" style="font-size:20px;">
+        投资是普通人对抗通胀和职场不确定性的<br>
+        <strong style="color:#FFD180;">终极武器</strong>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 2: Sunday Anxiety + Inflation Trap -->
+<section class="section" id="s2">
+  <div class="card">
+    <h2><span class="h2-emoji">😩</span>周日焦虑 + 月薪陷阱</h2>
+    <p class="subtitle">⏰ 太阳一斜，心情就开始往下沉</p>
+    <div class="quote-card">
+      <span class="quote-emoji">🌅</span>
+      <p class="quote-text">
+        每个周日下午，那种说不清的窒息感慢慢爬上来<br>
+        <span style="color:#FF8A80;">不是身体累，是想到明天又要上班</span>
+      </p>
+    </div>
+    <div class="conclusion-box sky-bg">
+      <span class="conclusion-emoji">🎯</span>
+      <p style="color:#81D4FA; font-weight:800; font-size:17px; line-height:1.7;">
+        今天这期视频要带你解锁的，不是更努力<br>
+        而是<strong>"周一不再焦虑、退休不再发愁"</strong>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 3: Inflation calculation -->
+<section class="section" id="s3">
+  <div class="card">
+    <h2><span class="h2-emoji">📉</span>$5,000 月薪的购买力萎缩</h2>
+    <p class="subtitle">💸 按 3.5% 通胀算 · 你"薪水不变"= 慢慢变穷</p>
+    <div class="inflation-chart">
+      <div class="inflation-bar-row">
+        <div class="inflation-time">现在</div>
+        <div class="inflation-bar-container"><div class="inflation-bar now">$5,000</div></div>
+        <div class="inflation-value mint">$5,000</div>
+      </div>
+      <div class="inflation-bar-row">
+        <div class="inflation-time">5 年后</div>
+        <div class="inflation-bar-container"><div class="inflation-bar y5">~$4,200</div></div>
+        <div class="inflation-value peach">~$4,200</div>
+      </div>
+      <div class="inflation-bar-row">
+        <div class="inflation-time">10 年后</div>
+        <div class="inflation-bar-container"><div class="inflation-bar y10">~$3,540</div></div>
+        <div class="inflation-value" style="color:#FFB58A;">~$3,540</div>
+      </div>
+      <div class="inflation-bar-row">
+        <div class="inflation-time">15 年后</div>
+        <div class="inflation-bar-container"><div class="inflation-bar y15">~$2,970</div></div>
+        <div class="inflation-value coral">~$2,970</div>
+      </div>
+      <div class="inflation-bar-row">
+        <div class="inflation-time">20 年后</div>
+        <div class="inflation-bar-container"><div class="inflation-bar y20">~$2,500</div></div>
+        <div class="inflation-value coral">~$2,500</div>
+      </div>
+    </div>
+    <div class="conclusion-box warn">
+      <span class="conclusion-emoji">⚠️</span>
+      <p style="color:#FF8A80; font-weight:800; font-size:17px; line-height:1.7;">
+        美国自然加薪 1%-3% / 年 &lt; 通胀 3%-4% / 年<br>
+        <strong>你每年都在悄悄"减薪"</strong> — 唯一破局：升职加薪（但累 + 不确定）
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 4: Side Hustle Dilemma -->
+<section class="section" id="s4">
+  <div class="card">
+    <h2><span class="h2-emoji">🤔</span>副业的两难</h2>
+    <p class="subtitle">😰 再打工 vs 创业 — 都是坑</p>
+    <div class="compare-cols">
+      <div class="compare-col col-bad">
+        <span class="col-emoji">😫</span>
+        <h3 style="color:#FF8A80;">路径一：再打第二份工</h3>
+        <ul>
+          <li>解决短期现金流</li>
+          <li>本质是<strong>用时间换钱</strong></li>
+          <li>25 岁还行，35 岁能撑住吗？45 岁呢？</li>
+          <li><strong>人随年龄追求活越干越少，不是越多</strong></li>
+          <li>长期一定走不通</li>
+        </ul>
+      </div>
+      <div class="compare-col col-mid">
+        <span class="col-emoji">🎲</span>
+        <h3 style="color:#FFD180;">路径二：自己创业</h3>
+        <ul>
+          <li>看上去更有想象空间</li>
+          <li>但实际<strong>九死一生</strong></li>
+          <li>需要 200% 投入 + 极高风险</li>
+          <li>每个细节都得操心</li>
+          <li>下一页带你看真实代价</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 5: Real cost of entrepreneurship -->
+<section class="section" id="s5">
+  <div class="card">
+    <h2><span class="h2-emoji">💀</span>创业的真实代价（电商 6 年实话）</h2>
+    <p class="subtitle">🤯 每个细节都得你操心，让你怀疑人生</p>
+    <div class="pain-grid">
+      <div class="pain-cell"><span class="pain-emoji">🎨</span><div class="pain-name">产品设计</div><div class="pain-desc">选品 / 打样 / 试错</div></div>
+      <div class="pain-cell"><span class="pain-emoji">📦</span><div class="pain-name">包装设计</div><div class="pain-desc">视觉 / 文案 / 合规</div></div>
+      <div class="pain-cell"><span class="pain-emoji">🏭</span><div class="pain-name">生产</div><div class="pain-desc">供应商 / 质量 / 库存</div></div>
+      <div class="pain-cell"><span class="pain-emoji">🚢</span><div class="pain-name">物流</div><div class="pain-desc">入库 / 海运 / 清关</div></div>
+      <div class="pain-cell"><span class="pain-emoji">📣</span><div class="pain-name">Marketing</div><div class="pain-desc">Google/FB/TikTok 投流</div></div>
+      <div class="pain-cell"><span class="pain-emoji">💰</span><div class="pain-name">广告投放</div><div class="pain-desc">每天烧钱测试</div></div>
+      <div class="pain-cell"><span class="pain-emoji">⚙️</span><div class="pain-name">运营</div><div class="pain-desc">上架 / 价格 / SEO</div></div>
+      <div class="pain-cell"><span class="pain-emoji">🎧</span><div class="pain-name">售后 + 退货</div><div class="pain-desc">客服 / 纠纷 / 翻新</div></div>
+      <div class="pain-cell"><span class="pain-emoji">🧾</span><div class="pain-name">报税</div><div class="pain-desc">比个人复杂几十倍</div></div>
+    </div>
+    <div class="conclusion-box warn">
+      <span class="conclusion-emoji">😩</span>
+      <p style="color:#FF8A80; font-weight:800; font-size:17px;">
+        我无数次有过放弃的念头 — 现在回头看：<strong style="color:#FFD180;">最好的副业根本不是创业，是投资</strong>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 6: Job + Investing formula -->
+<section class="section" id="s6">
+  <div class="card">
+    <h2><span class="h2-emoji">⚙️</span>上班 + 投资 = 双引擎</h2>
+    <p class="subtitle">📐 普通人最高效的财富累积公式</p>
+    <div class="dual-engine">
+      <div class="engine-side left">
+        <span class="engine-emoji">💼</span>
+        <h3 style="color:#FFD180;">上班</h3>
+        <p>源源不断<br>提供<strong>投资本金</strong></p>
+      </div>
+      <div class="engine-plus">+</div>
+      <div class="engine-side right">
+        <span class="engine-emoji">📈</span>
+        <h3 style="color:#A5D6A7;">投资</h3>
+        <p>本金<strong>自动滚雪球</strong><br>不需要更多时间</p>
+      </div>
+    </div>
+    <div class="conclusion-box peach-bg">
+      <span class="conclusion-emoji">⏳</span>
+      <p style="color:#FFD180; font-weight:800; font-size:17px; line-height:1.7;">
+        随时间流逝，工作收入越来越不重要<br>
+        某一天 — <strong>卖两张远期 Sell Put 收的权利金 &gt; 你一个月工资</strong>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 7: Mindset transformation -->
+<section class="section" id="s7">
+  <div class="card">
+    <h2><span class="h2-emoji">🧘</span>投资副业的隐藏红利 — 心态质变</h2>
+    <p class="subtitle">💡 财务自由 → 心理自由 → 反而带来职业稳定</p>
+    <div class="quote-card">
+      <span class="quote-emoji">👑</span>
+      <p class="quote-text">
+        只要你不想做领导<br>
+        <strong style="color:#FFD180;">就没有人可以领导你</strong>
+      </p>
+      <p class="quote-after">有手艺 → 不开心就走 → 安全感不再绑在公司身上</p>
+    </div>
+    <div class="quote-card" style="background:rgba(165,214,167,0.06); border-color:rgba(165,214,167,0.25);">
+      <span class="quote-emoji">😊</span>
+      <p class="quote-text">
+        没人会讨厌一个<br>
+        <strong style="color:#A5D6A7;">有能力、没野心、一天到晚开心的人</strong>
+      </p>
+      <p class="quote-after">不抢功 / 不争位 / 做事靠谱 — <strong>饭碗反而越来越稳</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 8: Sunday vs Monday -->
+<section class="section" id="s8">
+  <div class="card">
+    <h2><span class="h2-emoji">📅</span>从周日焦虑 → 周日期待</h2>
+    <p class="subtitle">🌱 投资让你的"星期感"翻转</p>
+    <div class="day-compare">
+      <div class="day-card before">
+        <span class="day-emoji">😩</span>
+        <div class="day-label">没投资之前</div>
+        <h3>周日 = 沮丧</h3>
+        <p>明天又是周一<br>地铁打卡、晨会、做不完的活<br><strong>Sunday Scaries</strong></p>
+      </div>
+      <div class="day-card after">
+        <span class="day-emoji">🤩</span>
+        <div class="day-label">开始投资之后</div>
+        <h3>周日 = 期待</h3>
+        <p>周一意味着<strong>美股开盘</strong><br>看自选股 / 看财报 / 找入场点<br>比直接干活有意思多了</p>
+      </div>
+    </div>
+    <div class="conclusion-box lavender-bg">
+      <span class="conclusion-emoji">🌾</span>
+      <p style="color:#CE93D8; font-weight:800; font-size:17px; line-height:1.7;">
+        像极了校内网开心农场 — 每天起床看种子发芽了没<br>
+        <strong>"有事可期待"的感觉，单纯打工绝对给不了你</strong>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 9: 4-layer position system -->
+<section class="section" id="s9">
+  <div class="card">
+    <h2><span class="h2-emoji">🏗️</span>退休的现金引擎 — 四层仓位系统</h2>
+    <p class="subtitle">⚙️ 永不熄火的现金流，循环流动</p>
+    <div class="position-system">
+      <div class="position-layer l1">
+        <div class="layer-head">
+          <span class="layer-emoji">🏛️</span>
+          <div>
+            <div class="layer-num sky">第一层</div>
+            <h3>定投仓位（底盘）</h3>
+          </div>
+        </div>
+        <p>QQQ / VOO 宽基 + 优质蓝筹股</p>
+        <div class="layer-role">📅 每月定额买入 · 不择时</div>
+      </div>
+      <div class="position-layer l2">
+        <div class="layer-head">
+          <span class="layer-emoji">⚡</span>
+          <div>
+            <div class="layer-num mint">第二层</div>
+            <h3>权利金仓位（引擎）</h3>
+          </div>
+        </div>
+        <p>优质标的轮动卖远期 Sell Put（养老神技）</p>
+        <div class="layer-role">💰 每隔一段时间收一大笔权利金落袋</div>
+      </div>
+      <div class="position-layer l3">
+        <div class="layer-head">
+          <span class="layer-emoji">💵</span>
+          <div>
+            <div class="layer-num peach">第三层</div>
+            <h3>现金仓位（流动池）</h3>
+          </div>
+        </div>
+        <p>平时生活消费 + 接收权利金流入</p>
+        <div class="layer-role">🛒 你的"日常工资替代"</div>
+      </div>
+      <div class="position-layer l4">
+        <div class="layer-head">
+          <span class="layer-emoji">🚀</span>
+          <div>
+            <div class="layer-num lavender">第四层</div>
+            <h3>爆发仓位（机会型杠杆）</h3>
+          </div>
+        </div>
+        <p>股灾 / 恐慌时买入 QQQ LEAPS Call 抄底</p>
+        <div class="layer-role">📊 涨多卖一点 → 补充现金仓位</div>
+      </div>
+    </div>
+    <div class="flow-row">
+      <span class="flow-pill mint">权利金</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-pill peach">现金</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-pill" style="color:#A5D6A7;">生活消费 + 定投</span>
+    </div>
+    <div class="flow-row">
+      <span class="flow-pill lavender">LEAPS 涨多</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-pill peach">卖一点 → 现金</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-pill sky">现金多 → 定投</span>
+    </div>
+    <div class="conclusion-box">
+      <span class="conclusion-emoji">🔄</span>
+      <p style="color:#A5D6A7; font-weight:800; font-size:17px;">
+        四层之间循环流动 — 整个系统是一个永不熄火的现金引擎
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 10: MOOMOO 实操 -->
+<section class="section" id="s10">
+  <div class="card">
+    <h2><span class="h2-emoji">🐮</span>MOOMOO 实操 — 退休后 1 周看 1-2 次</h2>
+    <p class="subtitle">📲 给标的设价格闹钟，不用每天盯盘</p>
+    <div class="step-list">
+      <div class="moomoo-step">
+        <div class="step-num-circle">1</div>
+        <div class="step-body">
+          <h4>🔔 价格闹钟（Price Alert）</h4>
+          <p>标的页面右上角铃铛 → 设触发条件（股价跌到 $X / IV Rank &gt;70 / 当日跌幅 &gt;5%）→ 触发时手机推送 — <strong>盯盘的是 MOOMOO，不是你</strong></p>
+        </div>
+      </div>
+      <div class="moomoo-step">
+        <div class="step-num-circle">2</div>
+        <div class="step-body">
+          <h4>⭐ 自选股清单（Watchlist）</h4>
+          <p>把"长期想 Sell Put"的优质标的加自选 → 一眼扫过：哪些回调最深？哪些 IV 飙升最猛？— <strong>回调 + 高 IV = 你最该出手的瞬间</strong></p>
+        </div>
+      </div>
+      <div class="moomoo-step">
+        <div class="step-num-circle">3</div>
+        <div class="step-body">
+          <h4>📊 期权 P&amp;L 追踪 + 多账户视图</h4>
+          <p>已开仓的 Sell Put / Covered Call 自动追踪每日盈亏 → 多账户视图一屏看到定投/期权/现金 — <strong>这就是你"四层仓位系统"的实时仪表盘</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="conclusion-box peach-bg">
+      <span class="conclusion-emoji">🎁</span>
+      <p style="color:#FFD180; font-weight:800; font-size:18px;">
+        MOOMOO 福利：通过我的链接开通账户，领价值 $1000 英伟达股票
+      </p>
+      <p style="color:#A89CC8; font-size:14px; margin-top:6px;">链接放在视频描述和置顶评论里</p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 11: Retirement freedom -->
+<section class="section" id="s11">
+  <div class="card">
+    <h2 style="justify-content:center;"><span class="h2-emoji">🏖️</span>退休后的日常</h2>
+    <p class="subtitle" style="justify-content:center;">📱 只要手机有信号，仓位都在替你运转</p>
+    <div class="freedom-icons">
+      <span>🏔️</span>
+      <span>🏖️</span>
+      <span>✈️</span>
+      <span>📱</span>
+    </div>
+    <div class="conclusion-box sky-bg">
+      <span class="conclusion-emoji">🌊</span>
+      <p style="color:#81D4FA; font-weight:800; font-size:18px; line-height:1.7;">
+        游山玩水的同时<br>
+        现金引擎依然在源源不断地往现金仓位输入权利金<br>
+        <strong style="color:#FFD180;">这才是真正的财务自由</strong>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 12: VIP -->
+<section class="section" id="s12">
+  <div class="card">
+    <div class="promo-card">
+      <span class="promo-emoji">💬✨</span>
+      <h2>VIP Discord 社区</h2>
+      <p>🌴 退休了也想交流投资心得？欢迎来打个招呼</p>
+      <div class="promo-feature">
+        🎁 我每周给群里推送几个适合 Sell Put 的优质标的<br>
+        📊 基本面分析 + 行权价建议 + 入场时机
+      </div>
+      <p style="margin-top:24px;">🚀 见证百万之路 · 👥 300 名付费用户在交流</p>
+      <div class="promo-badge">🔗 链接在视频描述和置顶评论</div>
+    </div>
+  </div>
+</section>
+
+<!-- Page 13: Summary -->
+<section class="section" id="s13">
+  <div class="card">
+    <h2><span class="h2-emoji">📝</span>核心要点</h2>
+    <ul class="summary-list">
+      <li><span class="li-emoji">📉</span><div><strong>月薪是个陷阱</strong> 通胀每年 3-4% 掏空购买力，自然加薪只 1-3% 跑不赢。$5,000 月薪 10 年后只剩 $3,540 购买力</div></li>
+      <li><span class="li-emoji">🎲</span><div><strong>副业两难</strong> 再打工不可持续，创业九死一生（细节多到让你怀疑人生）</div></li>
+      <li><span class="li-emoji">⚙️</span><div><strong>投资才是最好的副业</strong> 上班+投资 = 左手本金、右手复利，工作收入随时间越来越不重要</div></li>
+      <li><span class="li-emoji">🧘</span><div><strong>心态质变</strong> 当饭碗不绑公司身上，你反而成"有能力、没野心、心态好"的稀缺人才 — 饭碗越来越稳</div></li>
+      <li><span class="li-emoji">🏗️</span><div><strong>四层仓位系统</strong> 定投（底盘）+ 权利金（引擎）+ 现金（流动池）+ 爆发（杠杆）— 每周 1-2 次检查 + 价格闹钟即可</div></li>
+    </ul>
+    <div class="conclusion-box peach-bg">
+      <span class="conclusion-emoji">💎</span>
+      <p style="color:#FFD180; font-size:20px; font-weight:800; line-height:1.6;">
+        投资是普通人对抗通胀和职场不确定性的终极武器<br>
+        <span style="color:#A5D6A7;">它不是让你更努力，而是让你不需要那么努力</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Page 14: Next episode -->
+<section class="section" id="s14">
+  <div class="card">
+    <div class="promo-card">
+      <span class="promo-emoji">📺✨</span>
+      <h2 style="background: linear-gradient(135deg, #FFD180, #FF8A80); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">下期预告</h2>
+      <p style="font-size:26px; color:#FFD180; font-weight:800; margin-top:16px;">
+        💰 1 万美金账户 12 个月路径图
+      </p>
+      <p style="font-size:16px; color:#A89CC8; margin-top:12px; line-height:1.9;">
+        📅 每个月该买什么<br>📊 几月可以开始 Sell Put<br>🚀 什么时候可以开第一张 LEAPS Call
+      </p>
+      <p style="font-size:14px; color:#8878A8; margin-top:16px;">
+        手把手带你从 $1 万走到 $5 万 — 直到第一份"权利金 &gt; 工资"的奇迹时刻
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.side-nav a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const id = entry.target.id;
+      const link = document.querySelector(`.side-nav a[href="#${id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
